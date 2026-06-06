@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Búsqueda de propiedades – Speis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- TOP CONTACT BAR -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-left">
+      <span class="topbar-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm8 7L4 6v2l8 5 8-5V6l-8 5z"/></svg> ventas@speis.cr</span>
+      <span class="topbar-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg> +506 6303-4870</span>
+    </div>
+    <div class="topbar-right">
+      <a href="#" class="social-ig" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="url(#iggrad)">
+          <defs>
+            <linearGradient id="iggrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f58529"/>
+              <stop offset="50%" stop-color="#dd2a7b"/>
+              <stop offset="100%" stop-color="#8134af"/>
+            </linearGradient>
+          </defs>
+          <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.5-2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER / NAV -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">SPEIS</a>
+    <nav class="main-nav">
+      <a href="index.html">Inicio</a>
+      <a href="propiedades.html" class="active">Propiedades</a>
+      <a href="index.html#contacto">Contacto</a>
+      <div class="nav-dropdown" id="navDropdown">
+        <button class="nav-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
+          Secciones
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+        </button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="propiedades.html">Propiedades</a>
+          <a href="index.html#contacto">Contacto</a>
+          <a href="index.html#conozcanos">Conózcanos</a>
+          <a href="index.html#proyectos-actuales">Proyectos actuales</a>
+          <a href="index.html#equipo">Equipo</a>
+          <a href="index.html#proyectos-proximos">Proyectos próximos</a>
+          <a href="index.html#testimonios">Testimonios</a>
+          <a href="index.html#galeria">Galería</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- RESULTADOS DE BÚSQUEDA -->
+<section class="section section-dark" id="propiedades">
+  <div class="container">
+    <div class="results-header">
+      <div>
+        <span class="eyebrow">Resultados de búsqueda</span>
+        <h2 class="section-title light" style="margin:6px 0 0">Propiedades encontradas</h2>
+      </div>
+      <a href="index.html" class="back-btn">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M15 6l-6 6 6 6"/></svg>
+        Volver al inicio
+      </a>
+    </div>
+
+    <form class="results-search" id="resultsSearchForm">
+      <div class="search-field">
+        <label for="f_kw">Palabra clave</label>
+        <input id="f_kw" type="text" placeholder="Casa, lote, condominio…" autocomplete="off">
+      </div>
+      <div class="search-field">
+        <label for="f_loc">Ubicación</label>
+        <select id="f_loc">
+          <option value="">Todas las ubicaciones</option>
+          <option value="san jose">San José</option>
+          <option value="heredia">Heredia</option>
+          <option value="alajuela">Alajuela</option>
+          <option value="cartago">Cartago</option>
+          <option value="escazu">Escazú</option>
+          <option value="santa ana">Santa Ana</option>
+          <option value="curridabat">Curridabat</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <label for="f_type">Tipo de propiedad</label>
+        <select id="f_type">
+          <option value="">Todos los tipos</option>
+          <option value="casa">Casa</option>
+          <option value="apartamento">Apartamento</option>
+          <option value="lote">Lote</option>
+          <option value="condominio">Condominio</option>
+        </select>
+      </div>
+      <button type="submit" class="search-submit">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
+        Actualizar
+      </button>
+    </form>
+
+    <div class="active-filters" id="activeFilters"></div>
+
+    <div class="results-toolbar">
+      <div class="results-count"><strong id="resultsCount">0</strong> propiedades encontradas</div>
+      <button class="clear-filters" type="button" onclick="clearFilters()">Limpiar filtros</button>
+    </div>
+
+    <div class="properties-grid" id="propertiesGrid">
+      <article class="card" data-property data-title="Se Vende Casa en San Pablo de Heredia" data-location="san pablo heredia" data-type="casa">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Se Vende Casa en San Pablo de Heredia</h3>
+          <p class="loc"><span class="pin"></span>San Pablo, Heredia, Costa Rica</p>
+          <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende o Alquila Casa Condominio Interamericana" data-location="san pablo heredia rincon de sabanilla" data-type="casa">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Se Vende o Alquila Casa Condominio Interamericana</h3>
+          <p class="loc"><span class="pin"></span>Cond. Interamericana, Rincón de Sabanilla, San Pablo, Heredia</p>
+          <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Casa en Condominio Casa Hacienda Tres Rios" data-location="cartago tres rios" data-type="casa">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Se Vende Casa en Condominio Casa Hacienda Tres Ríos</h3>
+          <p class="loc"><span class="pin"></span>Tres Ríos, Cartago, Costa Rica</p>
+          <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-gold sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Lote en Condominio Latitud Lindora" data-location="santa ana lindora pozos" data-type="lote">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1599809275671-b5942cabc7a2?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Se Vende Lote en Condominio Latitud Lindora</h3>
+          <p class="loc"><span class="pin"></span>Condominio Latitud Lindora, Santa Ana</p>
+          <div class="card-foot"><span class="tag">Lote</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Lote en Lomas de Ayarco" data-location="san jose curridabat ayarco" data-type="lote">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Se Vende Lote en Lomas de Ayarco, ideal para apartamentos</h3>
+          <p class="loc"><span class="pin"></span>Lomas de Ayarco Norte, Curridabat, San José</p>
+          <div class="card-foot"><span class="tag">Lote</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Lote en Condominio Isabella del Carmen" data-location="san jose goicoechea" data-type="lote">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Se Vende Lote en Cond. Isabella del Carmen, Goicoechea</h3>
+          <p class="loc"><span class="pin"></span>Goicoechea, San José</p>
+          <div class="card-foot"><span class="tag">Lote</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Lote en Condominio Las Mesetas Los Reyes" data-location="alajuela guacima los reyes" data-type="lote">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Se Vende Lote en Cond. Las Mesetas, Los Reyes</h3>
+          <p class="loc"><span class="pin"></span>Guácima, Alajuela, Costa Rica</p>
+          <div class="card-foot"><span class="tag">Lote</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Casa en Condominio Vistas del Irazu" data-location="cartago san isidro guarco" data-type="casa">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Se Vende Casa en Cond. Vistas del Irazú, San Isidro</h3>
+          <p class="loc"><span class="pin"></span>San Isidro, El Guarco, Cartago</p>
+          <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Condominio Casa Alturas" data-location="san pablo heredia" data-type="condominio">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Condominio Casa Alturas</h3>
+          <p class="loc"><span class="pin"></span>San Pablo, Heredia, Costa Rica</p>
+          <div class="card-foot"><span class="tag">Condominio</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Condominio Luah" data-location="escazu jaboncillos" data-type="condominio">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Condominio Luah</h3>
+          <p class="loc"><span class="pin"></span>Jaboncillos, Escazú</p>
+          <div class="card-foot"><span class="tag">Condominio</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Condominio Caia Homes" data-location="escazu vista alegre" data-type="condominio">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80')">
+          <span class="badge-vendido">100% VENDIDO</span>
+        </div>
+        <div class="card-body">
+          <h3>Condominio Caia Homes</h3>
+          <p class="loc"><span class="pin"></span>C. Alemanes, Escazú, Vista Alegre, San José</p>
+          <div class="card-foot"><span class="tag">Condominio</span><button class="btn btn-gold sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Condominio Greencity" data-location="alajuela san rafael ruta 27" data-type="condominio">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Condominio Greencity</h3>
+          <p class="loc"><span class="pin"></span>Peaje San Rafael, Ruta 27, Alajuela</p>
+          <div class="card-foot"><span class="tag">Condominio</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Condominio Astura" data-location="san jose san isidro vazquez de coronado" data-type="condominio">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1564013434775-f71db0030976?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-body">
+          <h3>Condominio Astura</h3>
+          <p class="loc"><span class="pin"></span>San Isidro, Vázquez de Coronado, San José</p>
+          <div class="card-foot"><span class="tag">Condominio</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <div class="no-results" id="noResults" style="display:none">No se encontraron propiedades con esos criterios. Intente con otra búsqueda.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-contact">
+      <div class="fc-item">
+        <span class="fc-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span>
+        <div>
+          <div class="fc-label">Dirección</div>
+          <div class="fc-text">Santa Ana, Pozos, Paseo Lindora, Local 2</div>
+        </div>
+      </div>
+      <div class="fc-item">
+        <span class="fc-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm8 7L4 6v2l8 5 8-5V6l-8 5z"/></svg></span>
+        <div>
+          <div class="fc-label">Correo</div>
+          <div class="fc-text">ventas@speis.cr</div>
+        </div>
+      </div>
+      <div class="fc-item">
+        <span class="fc-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg></span>
+        <div>
+          <div class="fc-label">Teléfono</div>
+          <div class="fc-text">+506 6303-4870</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-grid">
+      <div class="f-col">
+        <a href="index.html" class="logo">SPEIS</a>
+        <p>Somos profesionales en asesorías de bienes inmuebles.</p>
+        <p>Nos dedicamos a acompañarle a través de cada uno de los pasos más importantes de la vida, como lo es adquirir una propiedad o inversión.</p>
+        <a href="#" class="footer-ig" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.5-2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
+        </a>
+      </div>
+      <div class="f-col">
+        <h5>Descubra</h5>
+        <ul>
+          <li><a href="index.html#conozcanos">» Nosotros</a></li>
+          <li><a href="index.html#equipo">» Equipo</a></li>
+          <li><a href="index.html#testimonios">» Testimonios</a></li>
+          <li><a href="index.html#galeria">» Galería</a></li>
+          <li><a href="index.html#contacto">» Contacto</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h5>Galería</h5>
+        <div class="gallery-grid">
+          <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=300&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=300&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80" alt="">
+          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=300&q=80" alt="">
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 Derechos de autor por Speis. Todos los derechos reservados.</span>
+      <div class="footer-links">
+        <a href="#">Términos y condiciones</a>
+        <a href="#">Política de privacidad</a>
+      </div>
+    </div>
+    <div class="footer-dev">Desarrollado por <span class="gold">Locally</span></div>
+  </div>
+</footer>
+
+<!-- WhatsApp floating button -->
+<a href="https://wa.me/50663034870" class="wa-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32" width="34" height="34" fill="#fff"><path d="M16 0C7.2 0 0 7.2 0 16c0 2.8.7 5.5 2.1 7.9L0 32l8.4-2.2c2.3 1.3 4.9 2 7.6 2 8.8 0 16-7.2 16-16S24.8 0 16 0zm0 29.3c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.3 1.3-4.9-.3-.5C3.5 21 2.7 18.6 2.7 16 2.7 8.7 8.7 2.7 16 2.7S29.3 8.7 29.3 16 23.3 29.3 16 29.3zm7.3-9.9c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.6-.2-.9.2-.3.4-1.1 1.3-1.3 1.6-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.3-2-1.2-1.1-2-2.5-2.2-2.9-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.3 0-.5-.1-.7l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.5-.3.4-1.2 1.2-1.2 2.9 0 1.7 1.3 3.4 1.4 3.6.2.3 2.5 3.9 6.1 5.4.9.4 1.5.6 2.1.8.9.3 1.7.2 2.3.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.1-.4-.3-.8-.5z"/></svg>
+</a>
+
+<script>
+/* ====== Property search page ====== */
+function normalize(s){
+  return (s||'').toString().toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,''); // accent-insensitive
+}
+var LOC_LABELS = {'san jose':'San José','heredia':'Heredia','alajuela':'Alajuela','cartago':'Cartago','escazu':'Escazú','santa ana':'Santa Ana','curridabat':'Curridabat'};
+var TYPE_LABELS = {casa:'Casa',apartamento:'Apartamento',lote:'Lote',condominio:'Condominio'};
+
+function applyFilters(){
+  var kw   = normalize(document.getElementById('f_kw').value.trim());
+  var loc  = normalize(document.getElementById('f_loc').value);
+  var type = normalize(document.getElementById('f_type').value);
+  var cards = document.querySelectorAll('#propertiesGrid [data-property]');
+  var visible = 0;
+  cards.forEach(function(card){
+    var title = normalize(card.dataset.title);
+    var cloc  = normalize(card.dataset.location);
+    var ctype = normalize(card.dataset.type);
+    var matchKw   = !kw   || title.includes(kw) || cloc.includes(kw) || ctype.includes(kw);
+    var matchLoc  = !loc  || cloc.includes(loc);
+    var matchType = !type || ctype === type;
+    var show = matchKw && matchLoc && matchType;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('resultsCount').textContent = visible;
+  document.getElementById('noResults').style.display = visible ? 'none' : 'block';
+  renderActiveFilters();
+  syncUrl();
+}
+
+function renderActiveFilters(){
+  var wrap = document.getElementById('activeFilters');
+  if (!wrap) return;
+  var kw = document.getElementById('f_kw').value.trim();
+  var loc = document.getElementById('f_loc').value;
+  var type = document.getElementById('f_type').value;
+  wrap.innerHTML = '';
+  function make(label, clear){
+    var c = document.createElement('span');
+    c.className = 'chip';
+    c.innerHTML = label + ' <button type="button" aria-label="Quitar">×</button>';
+    c.querySelector('button').addEventListener('click', function(){ clear(); applyFilters(); });
+    wrap.appendChild(c);
+  }
+  if (kw)   make('“' + kw + '”', function(){ document.getElementById('f_kw').value = ''; });
+  if (loc)  make(LOC_LABELS[loc] || loc, function(){ document.getElementById('f_loc').value = ''; });
+  if (type) make(TYPE_LABELS[type] || type, function(){ document.getElementById('f_type').value = ''; });
+}
+
+function clearFilters(){
+  document.getElementById('f_kw').value = '';
+  document.getElementById('f_loc').value = '';
+  document.getElementById('f_type').value = '';
+  applyFilters();
+}
+
+function syncUrl(){
+  var params = new URLSearchParams();
+  var kw = document.getElementById('f_kw').value.trim();
+  var loc = document.getElementById('f_loc').value;
+  var type = document.getElementById('f_type').value;
+  if (kw) params.set('kw', kw);
+  if (loc) params.set('loc', loc);
+  if (type) params.set('type', type);
+  var qs = params.toString();
+  history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+}
+
+/* Read filters from the URL (passed from the home page search) */
+(function initFromUrl(){
+  var params = new URLSearchParams(location.search);
+  var kw = params.get('kw') || '';
+  var loc = params.get('loc') || '';
+  var type = params.get('type') || '';
+  document.getElementById('f_kw').value = kw;
+  if ([].some.call(document.getElementById('f_loc').options, function(o){ return o.value === loc; })) {
+    document.getElementById('f_loc').value = loc;
+  }
+  if ([].some.call(document.getElementById('f_type').options, function(o){ return o.value === type; })) {
+    document.getElementById('f_type').value = type;
+  }
+  applyFilters();
+})();
+
+/* Live filtering + submit */
+['f_kw','f_loc','f_type'].forEach(function(id){
+  var el = document.getElementById(id);
+  if (!el) return;
+  var ev = el.tagName === 'SELECT' ? 'change' : 'input';
+  el.addEventListener(ev, applyFilters);
+});
+document.getElementById('resultsSearchForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  applyFilters();
+});
+
+/* Nav dropdown */
+(function(){
+  var dd = document.getElementById('navDropdown');
+  if (!dd) return;
+  var btn = dd.querySelector('.nav-dropdown-btn');
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = dd.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function(e){
+    if (!dd.contains(e.target)){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  });
+  dd.querySelectorAll('.nav-dropdown-menu a').forEach(function(a){
+    a.addEventListener('click', function(){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape'){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  });
+})();
+</script>
+</body>
+</html>
