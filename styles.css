@@ -314,8 +314,7 @@ body.loading{overflow:hidden}
 .preloader-inner{text-align:center}
 .preloader-logo{
   position:relative;
-  display:inline-flex;
-  overflow:hidden;                 /* clips the gloss sweep to the word */
+  display:inline-block;
   font-family:'Cormorant Garamond',serif;
   font-weight:600;
   color:var(--gold);
@@ -324,29 +323,34 @@ body.loading{overflow:hidden}
   line-height:1;
   padding:.22em .3em .26em 0;       /* room for letter entrance + centering */
 }
-.pl-letters{display:inline-flex}
-.pl-letters span{
+.pl-letters{position:relative;display:inline-block;white-space:nowrap}
+.pl-letters span:not(.pl-shine){
   display:inline-block;
   opacity:0;
   transform:translateY(26px) scale(.84);
   filter:blur(9px);
   animation:letterIn .9s cubic-bezier(.2,.7,.3,1) forwards;
 }
-.pl-letters span:nth-child(1){animation-delay:.25s}
-.pl-letters span:nth-child(2){animation-delay:.55s}
-.pl-letters span:nth-child(3){animation-delay:.85s}
-.pl-letters span:nth-child(4){animation-delay:1.15s}
-.pl-letters span:nth-child(5){animation-delay:1.45s}
-/* Apple-style glossy sweep that travels through the letters at the end */
-.preloader-gloss{
-  position:absolute;top:0;bottom:0;left:0;width:55%;
-  pointer-events:none;
-  background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);
-  mix-blend-mode:screen;
+.pl-letters span:not(.pl-shine):nth-child(1){animation-delay:.25s}
+.pl-letters span:not(.pl-shine):nth-child(2){animation-delay:.55s}
+.pl-letters span:not(.pl-shine):nth-child(3){animation-delay:.85s}
+.pl-letters span:not(.pl-shine):nth-child(4){animation-delay:1.15s}
+.pl-letters span:not(.pl-shine):nth-child(5){animation-delay:1.45s}
+/* Apple-style gloss: a highlight clipped to the LETTER shapes only */
+.pl-shine{
+  position:absolute;left:0;top:0;
+  white-space:nowrap;pointer-events:none;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  background-image:linear-gradient(105deg,transparent 44%,rgba(255,255,255,.97) 50%,transparent 56%);
+  background-repeat:no-repeat;
+  background-size:300% 100%;
+  background-position:-100% 0;
+  -webkit-background-clip:text;
+  background-clip:text;
   opacity:0;
-  transform:translateX(-180%) skewX(-16deg);
-  animation:glossSweep 1.15s cubic-bezier(.4,.05,.25,1) forwards;
-  animation-delay:2.45s;
+  animation:plShine 2.4s ease-in-out forwards;
+  animation-delay:2.6s;
 }
 .preloader-line{
   height:2px;width:0;margin:24px auto 0;
@@ -362,15 +366,15 @@ body.loading{overflow:hidden}
 @keyframes letterIn{to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
 @keyframes lineGrow{to{width:200px}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:.85;transform:translateY(0)}}
-@keyframes glossSweep{
-  0%{transform:translateX(-180%) skewX(-16deg);opacity:0}
-  12%{opacity:1}
-  88%{opacity:1}
-  100%{transform:translateX(240%) skewX(-16deg);opacity:0}
+@keyframes plShine{
+  0%{background-position:-100% 0;opacity:0}
+  14%{opacity:1}
+  86%{opacity:1}
+  100%{background-position:100% 0;opacity:0}
 }
 @media (prefers-reduced-motion:reduce){
-  .pl-letters span{animation:none;opacity:1;transform:none;filter:none}
+  .pl-letters span:not(.pl-shine){animation:none;opacity:1;transform:none;filter:none}
   .preloader-line{animation:none;width:200px}
   .preloader-tagline{animation:none;opacity:.85}
-  .preloader-gloss{display:none}
+  .pl-shine{display:none}
 }

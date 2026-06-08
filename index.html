@@ -15,8 +15,7 @@
 <div class="preloader" id="preloader" role="status" aria-label="Cargando">
   <div class="preloader-inner">
     <div class="preloader-logo" aria-hidden="true">
-      <span class="pl-letters"><span>S</span><span>P</span><span>E</span><span>I</span><span>S</span></span>
-      <span class="preloader-gloss"></span>
+      <span class="pl-letters"><span>S</span><span>P</span><span>E</span><span>I</span><span>S</span><span class="pl-shine">SPEIS</span></span>
     </div>
     <div class="preloader-line"></div>
     <div class="preloader-tagline">Un hogar a un clic</div>
@@ -437,7 +436,7 @@
   var pre = document.getElementById('preloader');
   if (!pre){ document.body.classList.remove('loading'); return; }
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var DONE_AT = reduce ? 700 : 3650; // letters reveal -> gloss sweep -> reveal page
+  var DONE_AT = reduce ? 700 : 5200; // letters reveal -> slow gloss sweep -> reveal page
   function finish(){
     pre.classList.add('done');
     document.body.classList.remove('loading');
