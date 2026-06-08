@@ -321,7 +321,9 @@ body.loading{overflow:hidden}
   font-size:clamp(2.8rem,10vw,5.5rem);
   letter-spacing:.3em;
   line-height:1;
-  padding:.22em .3em .26em 0;       /* room for letter entrance + centering */
+  /* no horizontal padding: glyphs fill the box and the box is centered -> word is centered.
+     vertical padding gives room for the letter entrance (translateY) */
+  padding:.22em 0 .26em;
 }
 .pl-letters{position:relative;display:inline-block;white-space:nowrap}
 .pl-letters span:not(.pl-shine){
