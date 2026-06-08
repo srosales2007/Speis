@@ -316,7 +316,7 @@ body.loading{overflow:hidden}
   font-family:'Cormorant Garamond',serif;
   font-weight:600;
   color:var(--gold);
-  font-size:clamp(2.8rem,10vw,5.5rem);
+  font-size:clamp(3.5rem,12.5vw,6.875rem); /* 25% larger than before */
   letter-spacing:.3em;
   line-height:1;
   /* no horizontal padding: glyphs fill the box and the box is centered -> word is centered.
