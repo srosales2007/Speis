@@ -216,19 +216,20 @@ ul{list-style:none}
 .phone-bubble{position:absolute;top:12px;left:12px;z-index:3;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#fff;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.25)}
 .phone-bubble svg{width:13px;height:13px}
 
-.contact-section .two-col{align-items:stretch}
-.contact-form{display:flex;flex-direction:column;gap:10px;margin-top:22px;max-width:500px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.contact-form input,.contact-form textarea,.contact-form select{width:100%;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:12px 20px;color:#fff;font-family:inherit;font-size:.88rem;outline:none;transition:var(--transition)}
+.contact-wrap{max-width:720px;margin:0 auto;text-align:center}
+.contact-form{display:flex;flex-direction:column;gap:12px;margin-top:24px;width:100%;text-align:left}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.contact-form input,.contact-form textarea,.contact-form select{width:100%;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:13px 22px;color:#fff;font-family:inherit;font-size:.9rem;outline:none;transition:var(--transition)}
 .contact-form select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c9a96e'><path d='M7 10l5 5 5-5z'/></svg>");background-repeat:no-repeat;background-position:right 18px center;background-size:18px;padding-right:42px;cursor:pointer}
 .contact-form select option{background:var(--bg-darker);color:#fff}
-.contact-form textarea{border-radius:14px;resize:vertical;min-height:100px;font-family:inherit}
+.contact-form textarea{border-radius:14px;resize:vertical;min-height:120px;font-family:inherit}
 .contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(255,255,255,.55)}
 .contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{border-color:var(--gold)}
-.contact-form .btn-gold{align-self:flex-start;padding:12px 32px;margin-top:6px}
-
-.map-col{position:relative}
-.map-frame{width:100%;height:100%;min-height:340px;border:0;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.35);display:block;background:#1a1a1a}
+.form-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.form-actions .btn{padding:13px 30px;font-size:.9rem}
+.btn-wa{background:#25d366;color:#fff}
+.btn-wa:hover{background:#1ebe5d}
+.btn-wa svg{flex-shrink:0}
 
 .testimonial-section .two-col{align-items:start}
 .testi-photo{border:2px solid var(--gold);padding:14px;max-width:300px;margin-left:auto}
@@ -270,9 +271,6 @@ ul{list-style:none}
 .footer-links a:hover{color:var(--gold)}
 .footer-dev{margin-top:10px;font-size:.75rem;color:#a3a3a3}
 
-.wa-float{position:fixed;right:18px;bottom:18px;z-index:100;width:46px;height:46px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(37,211,102,.4);transition:var(--transition)}
-.wa-float:hover{transform:scale(1.08)}
-.wa-float svg{width:26px;height:26px}
 
 @media (max-width:960px){
   .two-col{grid-template-columns:1fr;gap:36px}

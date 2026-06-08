@@ -128,8 +128,8 @@
 
 <!-- CONTACTO (subido para prioridad) -->
 <section class="section section-dark contact-section" id="contacto">
-  <div class="container two-col">
-    <div class="text-col">
+  <div class="container">
+    <div class="contact-wrap">
       <span class="eyebrow">Contáctenos</span>
       <h2 class="section-title light">Agende y encuentre el hogar que sueña</h2>
       <p class="muted" style="color:#cfcfcf">Cuéntenos por cuál proyecto está interesado y un asesor le contactará a la brevedad.</p>
@@ -158,18 +158,14 @@
           <option>Información general / Otra propiedad</option>
         </select>
         <textarea placeholder="Escriba su mensaje" rows="5"></textarea>
-        <button type="submit" class="btn btn-gold">Enviar</button>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-gold">Enviar</button>
+          <a href="https://wa.me/50663034870" target="_blank" rel="noopener" class="btn btn-wa">
+            <svg viewBox="0 0 32 32" width="18" height="18" fill="currentColor"><path d="M16 0C7.2 0 0 7.2 0 16c0 2.8.7 5.5 2.1 7.9L0 32l8.4-2.2c2.3 1.3 4.9 2 7.6 2 8.8 0 16-7.2 16-16S24.8 0 16 0zm0 29.3c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.3 1.3-4.9-.3-.5C3.5 21 2.7 18.6 2.7 16 2.7 8.7 8.7 2.7 16 2.7S29.3 8.7 29.3 16 23.3 29.3 16 29.3zm7.3-9.9c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.6-.2-.9.2-.3.4-1.1 1.3-1.3 1.6-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.3-2-1.2-1.1-2-2.5-2.2-2.9-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.3 0-.5-.1-.7l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.5-.3.4-1.2 1.2-1.2 2.9 0 1.7 1.3 3.4 1.4 3.6.2.3 2.5 3.9 6.1 5.4.9.4 1.5.6 2.1.8.9.3 1.7.2 2.3.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.1-.4-.3-.8-.5z"/></svg>
+            WhatsApp
+          </a>
+        </div>
       </form>
-    </div>
-    <div class="map-col">
-      <iframe
-        class="map-frame"
-        src="https://www.google.com/maps?q=Paseo+Lindora,+Santa+Ana,+Pozos,+Costa+Rica&hl=es&z=15&output=embed"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="Ubicación Speis – Santa Ana, Pozos">
-      </iframe>
     </div>
   </div>
 </section>
@@ -424,11 +420,6 @@
     <div class="footer-dev">Desarrollado por <span class="gold">Locally</span></div>
   </div>
 </footer>
-
-<!-- WhatsApp floating button -->
-<a href="https://wa.me/50663034870" class="wa-float" aria-label="WhatsApp">
-  <svg viewBox="0 0 32 32" width="34" height="34" fill="#fff"><path d="M16 0C7.2 0 0 7.2 0 16c0 2.8.7 5.5 2.1 7.9L0 32l8.4-2.2c2.3 1.3 4.9 2 7.6 2 8.8 0 16-7.2 16-16S24.8 0 16 0zm0 29.3c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.3 1.3-4.9-.3-.5C3.5 21 2.7 18.6 2.7 16 2.7 8.7 8.7 2.7 16 2.7S29.3 8.7 29.3 16 23.3 29.3 16 29.3zm7.3-9.9c-.4-.2-2.4-1.2-2.8-1.3-.4-.1-.6-.2-.9.2-.3.4-1.1 1.3-1.3 1.6-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.3-2-1.2-1.1-2-2.5-2.2-2.9-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.3 0-.5-.1-.7l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.5-.3.4-1.2 1.2-1.2 2.9 0 1.7 1.3 3.4 1.4 3.6.2.3 2.5 3.9 6.1 5.4.9.4 1.5.6 2.1.8.9.3 1.7.2 2.3.1.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.1-.4-.3-.8-.5z"/></svg>
-</a>
 
 <script>
 /* Intro preloader: spell out SPEIS, then reveal the page */
