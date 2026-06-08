@@ -9,7 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="loading">
+
+<!-- INTRO PRELOADER (spells out SPEIS) -->
+<div class="preloader" id="preloader" role="status" aria-label="Cargando">
+  <div class="preloader-inner">
+    <div class="preloader-logo" aria-hidden="true">
+      <span>S</span><span>P</span><span>E</span><span>I</span><span>S</span>
+    </div>
+    <div class="preloader-line"></div>
+    <div class="preloader-tagline">Un hogar a un clic</div>
+  </div>
+</div>
 
 <!-- TOP CONTACT BAR -->
 <div class="topbar">
@@ -390,16 +401,6 @@
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.5-2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
         </a>
       </div>
-      <div class="f-col">
-        <h5>Descubra</h5>
-        <ul>
-          <li><a href="#">» Nosotros</a></li>
-          <li><a href="#">» Equipo</a></li>
-          <li><a href="#">» Testimonios</a></li>
-          <li><a href="#">» Galería</a></li>
-          <li><a href="#contacto">» Contacto</a></li>
-        </ul>
-      </div>
       <div class="f-col" id="galeria">
         <h5>Galería</h5>
         <div class="gallery-grid">
@@ -430,6 +431,21 @@
 </a>
 
 <script>
+/* Intro preloader: spell out SPEIS, then reveal the page */
+(function(){
+  var pre = document.getElementById('preloader');
+  if (!pre){ document.body.classList.remove('loading'); return; }
+  var DONE_AT = 2200; // letters + line + tagline finish, then fade
+  function finish(){
+    pre.classList.add('done');
+    document.body.classList.remove('loading');
+    setTimeout(function(){ if (pre && pre.parentNode) pre.parentNode.removeChild(pre); }, 800);
+  }
+  // allow users to skip the intro
+  pre.addEventListener('click', finish);
+  setTimeout(finish, DONE_AT);
+})();
+
 /* Hero search -> redirect to dedicated property page with filters in the URL */
 (function(){
   const form = document.getElementById('searchForm');

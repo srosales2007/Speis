@@ -251,7 +251,7 @@ ul{list-style:none}
 .fc-label{font-size:.7rem;opacity:.85}
 .fc-text{font-weight:700;font-size:.85rem}
 
-.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1.4fr;gap:32px;align-items:flex-start}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1.4fr;gap:48px;align-items:flex-start}
 .f-col h5{font-family:var(--font-display);color:#fff;font-size:1rem;font-weight:700;margin-bottom:14px;position:relative;padding-bottom:6px}
 .f-col h5::after{content:"";position:absolute;left:0;bottom:0;width:26px;height:2px;background:var(--gold)}
 .f-col p{color:#a3a3a3;font-size:.82rem;margin-bottom:8px;line-height:1.6}
@@ -300,4 +300,56 @@ ul{list-style:none}
   .main-nav{gap:18px}
   .logo{font-size:2rem}
   .search-bar,.results-search{grid-template-columns:1fr}
+}
+
+/* =================== Intro preloader (spells out SPEIS) =================== */
+body.loading{overflow:hidden}
+.preloader{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 42%, #383838 0%, var(--bg-dark) 45%, var(--bg-darker) 100%);
+  transition:opacity .7s ease, visibility .7s ease;
+}
+.preloader.done{opacity:0;visibility:hidden;pointer-events:none}
+.preloader-inner{text-align:center}
+.preloader-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:600;
+  color:var(--gold);
+  font-size:clamp(2.8rem,10vw,5.5rem);
+  letter-spacing:.3em;
+  line-height:1;
+  display:inline-flex;
+  padding-left:.3em; /* compensate trailing letter-spacing for centering */
+}
+.preloader-logo span{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(22px) scale(.86);
+  filter:blur(8px);
+  animation:letterIn .6s cubic-bezier(.2,.7,.3,1) forwards;
+}
+.preloader-logo span:nth-child(1){animation-delay:.20s}
+.preloader-logo span:nth-child(2){animation-delay:.38s}
+.preloader-logo span:nth-child(3){animation-delay:.56s}
+.preloader-logo span:nth-child(4){animation-delay:.74s}
+.preloader-logo span:nth-child(5){animation-delay:.92s}
+.preloader-line{
+  height:2px;width:0;margin:22px auto 0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:lineGrow .8s ease forwards;
+  animation-delay:1.15s;
+}
+.preloader-tagline{
+  margin-top:14px;color:#cfcfcf;font-size:.8rem;letter-spacing:.32em;
+  text-transform:uppercase;opacity:0;
+  animation:fadeInUp .6s ease forwards;animation-delay:1.35s;
+}
+@keyframes letterIn{to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes lineGrow{to{width:200px}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:.85;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){
+  .preloader-logo span{animation:none;opacity:1;transform:none;filter:none}
+  .preloader-line{animation:none;width:200px}
+  .preloader-tagline{animation:none;opacity:.85}
 }
