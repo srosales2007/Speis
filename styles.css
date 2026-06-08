@@ -349,22 +349,22 @@ body.loading{overflow:hidden}
   -webkit-background-clip:text;
   background-clip:text;
   opacity:0;
-  animation:plShine 2.4s ease-in-out forwards;
+  animation:plShine 3.1s ease-in-out forwards;
   animation-delay:2.6s;
 }
 .preloader-line{
-  height:2px;width:0;margin:24px auto 0;
+  height:2px;width:0;margin:30px auto 0;
   background:linear-gradient(90deg,transparent,var(--gold),transparent);
   animation:lineGrow .9s ease forwards;
   animation-delay:1.85s;
 }
 .preloader-tagline{
-  margin-top:14px;color:#cfcfcf;font-size:.8rem;letter-spacing:.32em;
+  margin-top:18px;color:#cfcfcf;font-size:clamp(1rem,2.7vw,1.25rem);letter-spacing:.34em;
   text-transform:uppercase;opacity:0;
   animation:fadeInUp .7s ease forwards;animation-delay:2.1s;
 }
 @keyframes letterIn{to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
-@keyframes lineGrow{to{width:200px}}
+@keyframes lineGrow{to{width:250px}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:.85;transform:translateY(0)}}
 @keyframes plShine{
   0%{background-position:-100% 0;opacity:0}
@@ -374,7 +374,7 @@ body.loading{overflow:hidden}
 }
 @media (prefers-reduced-motion:reduce){
   .pl-letters span:not(.pl-shine){animation:none;opacity:1;transform:none;filter:none}
-  .preloader-line{animation:none;width:200px}
+  .preloader-line{animation:none;width:250px}
   .preloader-tagline{animation:none;opacity:.85}
   .pl-shine{display:none}
 }
