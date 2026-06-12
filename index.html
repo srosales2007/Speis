@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="script.js" defer></script>
 </head>
 <body class="loading">
 
@@ -30,7 +31,7 @@
       <span class="topbar-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg> +506 6303-4870</span>
     </div>
     <div class="topbar-right">
-      <a href="#" class="social-ig" aria-label="Instagram">
+      <a href="https://www.instagram.com/speis.inmobiliaria/" target="_blank" rel="noopener" class="social-ig" aria-label="Instagram de Speis">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="url(#iggrad)">
           <defs>
             <linearGradient id="iggrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -92,12 +93,12 @@
         <select id="loc">
           <option value="">Todas las ubicaciones</option>
           <option value="san jose">San José</option>
-          <option value="heredia">Heredia</option>
           <option value="alajuela">Alajuela</option>
           <option value="cartago">Cartago</option>
-          <option value="escazu">Escazú</option>
-          <option value="santa ana">Santa Ana</option>
-          <option value="curridabat">Curridabat</option>
+          <option value="heredia">Heredia</option>
+          <option value="guanacaste">Guanacaste</option>
+          <option value="puntarenas">Puntarenas</option>
+          <option value="limon">Limón</option>
         </select>
       </div>
       <div class="search-field">
@@ -116,6 +117,7 @@
       </button>
     </form>
 
+    <p class="stats-caption">Nuestra experiencia en colocación</p>
     <div class="stats">
       <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Apartamentos</div></div>
       <span class="stat-sep"></span>
@@ -132,29 +134,35 @@
     <div class="contact-wrap">
       <span class="eyebrow">Contáctenos</span>
       <h2 class="section-title light">Agende y encuentre el hogar que sueña</h2>
-      <p class="muted" style="color:#cfcfcf">Cuéntenos por cuál proyecto está interesado y un asesor le contactará a la brevedad.</p>
-      <form class="contact-form" onsubmit="event.preventDefault();alert('¡Gracias! Su mensaje fue enviado.');">
+      <p class="muted contact-note">Cuéntenos por cuál proyecto está interesado y un asesor le contactará a la brevedad.</p>
+      <form class="contact-form" id="contactForm">
         <div class="form-row">
-          <input type="text" placeholder="Nombre*" required>
-          <input type="email" placeholder="Correo*" required>
+          <input type="text" placeholder="Nombre*" aria-label="Nombre" required>
+          <input type="email" placeholder="Correo*" aria-label="Correo" required>
         </div>
-        <input type="tel" placeholder="Teléfono*" required>
-        <select name="project" required>
+        <input type="tel" placeholder="Teléfono*" aria-label="Teléfono" required>
+        <select name="project" aria-label="Proyecto de interés" required>
           <option value="">¿Por cuál proyecto está interesado?*</option>
           <option>Condominio Casa Alturas</option>
           <option>Condominio Luah</option>
           <option>Condominio Caia Homes</option>
+          <option>Condominio Parkwood Nunciatura</option>
+          <option>Condominio Espavel</option>
           <option>Condominio Greencity</option>
           <option>Condominio Astura</option>
-          <option>Condominio Vía Roble</option>
+          <option>Condominio Via Roble</option>
+          <option>Casa en Condominio Distrito San Juan</option>
+          <option>Casa en Condominio Villa del Sol</option>
+          <option>Casa en Santa Ana Urbano</option>
           <option>Casa en San Pablo de Heredia</option>
-          <option>Casa en Cond. Interamericana</option>
-          <option>Casa en Cond. Casa Hacienda Tres Ríos</option>
-          <option>Casa en Cond. Vistas del Irazú</option>
-          <option>Lote en Cond. Latitud Lindora</option>
+          <option>Casa en Condominio Interamericana</option>
+          <option>Casa en Condominio Casa Hacienda Tres Ríos</option>
+          <option>Casa en Condominio Vistas del Irazú</option>
+          <option>Apartamento en Torre Bellavista</option>
+          <option>Lote en Condominio Latitud Lindora</option>
           <option>Lote en Lomas de Ayarco</option>
-          <option>Lote en Cond. Isabella del Carmen</option>
-          <option>Lote en Cond. Las Mesetas</option>
+          <option>Lote en Condominio Isabella del Carmen</option>
+          <option>Lote en Condominio Las Mesetas</option>
           <option>Información general / Otra propiedad</option>
         </select>
         <textarea placeholder="Escriba su mensaje" rows="5"></textarea>
@@ -177,17 +185,14 @@
       <span class="eyebrow">Conózcanos</span>
       <h2>La propiedad que sueña también lo está buscando.</h2>
       <p>Encontremos juntos la opción perfecta para usted.</p>
-      <a href="propiedades.html" class="btn btn-dark" style="margin-top:14px">
+      <a href="propiedades.html" class="btn btn-dark">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>
         Explorar
       </a>
     </div>
     <div class="media-col">
       <div class="video-card">
-        <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1200&q=80" alt="Interior elegante" />
-        <button class="play-btn" aria-label="Reproducir video">
-          <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </button>
+        <img src="https://speis.cr/wp-content/uploads/2024/11/sala1.jpeg" alt="Sala de una propiedad Speis" loading="lazy" />
       </div>
     </div>
   </div>
@@ -204,7 +209,7 @@
       </button>
       <div class="carousel-track" data-track>
         <article class="card">
-          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80')"></div>
+          <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/10/renderCaseta-600x385.webp" alt="Condominio Casa Alturas" loading="lazy"></div>
           <div class="card-body">
             <h3>Condominio Casa Alturas</h3>
             <p class="loc"><span class="pin"></span>San Pablo, Heredia, Costa Rica</p>
@@ -212,7 +217,7 @@
           </div>
         </article>
         <article class="card">
-          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80')"></div>
+          <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/10/entradaLuah-600x385.webp" alt="Condominio Luah" loading="lazy"></div>
           <div class="card-body">
             <h3>Condominio Luah</h3>
             <p class="loc"><span class="pin"></span>Jaboncillos, Escazú</p>
@@ -220,25 +225,39 @@
           </div>
         </article>
         <article class="card">
-          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80')">
-            <span class="badge-vendido">100% VENDIDO</span>
-          </div>
+          <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/09/caiHomes.jpg" alt="Condominio Caia Homes" loading="lazy"></div>
           <div class="card-body">
             <h3>Condominio Caia Homes</h3>
-            <p class="loc"><span class="pin"></span>C. Alemanes, Escazú, Vista Alegre, San José</p>
+            <p class="loc"><span class="pin"></span>C. Alemanes, San José, Escazú, Vista Alegre</p>
             <div class="card-foot"><span class="placeholder"></span><button class="btn btn-gold sm">Detalles</button></div>
           </div>
         </article>
         <article class="card">
-          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80')"></div>
+          <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/09/parkwood.jpg" alt="Condominio Parkwood Nunciatura" loading="lazy"></div>
           <div class="card-body">
-            <h3>Condominio Greencity</h3>
-            <p class="loc"><span class="pin"></span>Peaje San Rafael, Ruta 27, Alajuela</p>
+            <h3>Condominio Parkwood Nunciatura</h3>
+            <p class="loc"><span class="pin"></span>San José, Rohrmoser</p>
             <div class="card-foot"><span class="placeholder"></span><button class="btn btn-dark sm">Detalles</button></div>
           </div>
         </article>
         <article class="card">
-          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1564013434775-f71db0030976?auto=format&fit=crop&w=900&q=80')"></div>
+          <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2024/11/piscina2-600x385.jpeg" alt="Condominio Espavel" loading="lazy"></div>
+          <div class="card-body">
+            <h3>Condominio Espavel</h3>
+            <p class="loc"><span class="pin"></span>Guácima Abajo, Guácima, Alajuela</p>
+            <div class="card-foot"><span class="placeholder"></span><button class="btn btn-dark sm">Detalles</button></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/10/greencity2-600x385.webp" alt="Condominio Greencity" loading="lazy"></div>
+          <div class="card-body">
+            <h3>Condominio Greencity</h3>
+            <p class="loc"><span class="pin"></span>Lado sur, Peaje San Rafael, Ruta 27, Alajuela</p>
+            <div class="card-foot"><span class="placeholder"></span><button class="btn btn-dark sm">Detalles</button></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/09/foto1-600x385.webp" alt="Condominio Astura" loading="lazy"></div>
           <div class="card-body">
             <h3>Condominio Astura</h3>
             <p class="loc"><span class="pin"></span>San Isidro, Vázquez de Coronado, San José</p>
@@ -260,33 +279,53 @@
     <h2 class="section-title">Conozca a los expertos del Real Estate</h2>
     <div class="experts-grid">
       <div class="expert-card">
-        <div class="expert-img" style="background-image:linear-gradient(135deg,#1a1a1a,#2a2a2a),url('https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80');background-blend-mode:multiply;background-size:cover;background-position:center"></div>
-        <button class="phone-bubble" aria-label="Llamar">
+        <img class="expert-img" src="https://speis.cr/wp-content/uploads/2025/07/juanPaniagua.webp" alt="Juan Paniagua" loading="lazy">
+        <a class="phone-bubble" href="tel:+50663034870" aria-label="Llamar a Speis">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg>
-        </button>
+        </a>
         <div class="expert-info">
           <h4>Juan Paniagua</h4>
           <span>Asesor de ventas</span>
         </div>
       </div>
       <div class="expert-card">
-        <div class="expert-img" style="background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80')"></div>
-        <button class="phone-bubble" aria-label="Llamar">
+        <img class="expert-img" src="https://speis.cr/wp-content/uploads/2025/08/carlosCarrera-1-scaled.jpg" alt="Carlos Carrera" loading="lazy">
+        <a class="phone-bubble" href="tel:+50663034870" aria-label="Llamar a Speis">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg>
-        </button>
+        </a>
         <div class="expert-info">
           <h4>Carlos Carrera</h4>
           <span>Asesor de ventas</span>
         </div>
       </div>
       <div class="expert-card">
-        <div class="expert-img" style="background-image:url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80')"></div>
-        <button class="phone-bubble" aria-label="Llamar">
+        <img class="expert-img" src="https://speis.cr/wp-content/uploads/2025/08/francell-1-scaled.png" alt="Francell Víquez" loading="lazy">
+        <a class="phone-bubble" href="tel:+50663034870" aria-label="Llamar a Speis">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg>
-        </button>
+        </a>
         <div class="expert-info">
           <h4>Francell Víquez</h4>
           <span>Asesor de ventas</span>
+        </div>
+      </div>
+      <div class="expert-card">
+        <img class="expert-img" src="https://speis.cr/wp-content/uploads/2025/08/mariana.jpeg" alt="Mariana González" loading="lazy">
+        <a class="phone-bubble" href="tel:+50663034870" aria-label="Llamar a Speis">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg>
+        </a>
+        <div class="expert-info">
+          <h4>Mariana González</h4>
+          <span>Operaciones y servicio al cliente</span>
+        </div>
+      </div>
+      <div class="expert-card">
+        <img class="expert-img" src="https://speis.cr/wp-content/uploads/2025/08/adriana-scaled.png" alt="Adriana Barboza" loading="lazy">
+        <a class="phone-bubble" href="tel:+50663034870" aria-label="Llamar a Speis">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg>
+        </a>
+        <div class="expert-info">
+          <h4>Adriana Barboza</h4>
+          <span>Operaciones y servicio al cliente</span>
         </div>
       </div>
     </div>
@@ -301,29 +340,9 @@
     <div class="carousel" data-carousel>
       <div class="carousel-track" data-track>
         <article class="card">
-          <div class="card-img placeholder-img">
-            <div class="placeholder-logo">SPEIS<br><span>PRÓXIMAMENTE…</span></div>
-          </div>
+          <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/10/proximamente-600x385.png" alt="Condominio Via Roble — próximamente" loading="lazy"></div>
           <div class="card-body">
-            <h3>Condominio Vía Roble</h3>
-            <div class="card-foot"><span class="placeholder"></span><button class="btn btn-dark sm">Detalles</button></div>
-          </div>
-        </article>
-        <article class="card">
-          <div class="card-img placeholder-img">
-            <div class="placeholder-logo">SPEIS<br><span>PRÓXIMAMENTE…</span></div>
-          </div>
-          <div class="card-body">
-            <h3>Condominio Vía Roble</h3>
-            <div class="card-foot"><span class="placeholder"></span><button class="btn btn-dark sm">Detalles</button></div>
-          </div>
-        </article>
-        <article class="card">
-          <div class="card-img placeholder-img">
-            <div class="placeholder-logo">SPEIS<br><span>PRÓXIMAMENTE…</span></div>
-          </div>
-          <div class="card-body">
-            <h3>Condominio Vía Roble</h3>
+            <h3>Condominio Via Roble</h3>
             <div class="card-foot"><span class="placeholder"></span><button class="btn btn-dark sm">Detalles</button></div>
           </div>
         </article>
@@ -337,25 +356,64 @@
   <div class="container two-col">
     <div class="media-col">
       <div class="testi-photo">
-        <img src="https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=900&q=80" alt="Cliente">
+        <img src="https://speis.cr/wp-content/uploads/2025/08/testimonioo-768x1024.jpg" alt="Clientes de Speis" loading="lazy">
       </div>
     </div>
     <div class="text-col">
       <span class="eyebrow">Testimonios</span>
       <h2>¿Qué dicen nuestros clientes?</h2>
       <p class="muted">Queremos que escuche a quienes ya vivieron la experiencia. Personas como usted, que un día dijeron "sí", y hoy pueden decir: valió la pena. A continuación, le compartimos algunas historias reales, de clientes reales, que encontraron en nosotros no solo una solución, sino un verdadero cambio.</p>
-      <p>Trabajar con SPEIS es de las mejores experiencias que he tenido al comprar bienes raíces. La honestidad que se siente al tratar con ellos hace que uno esté tranquilo; el conocimiento y las recomendaciones que me dieron en el pasado ya dan sus frutos, por lo que puedo decir que los recomiendo y ya lo hago con mi grupo de amigos y familia.</p>
-      <hr>
-      <div class="testi-author">
-        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Alberto Brenes">
-        <div>
-          <strong>Alberto Brenes</strong>
-          <span>Odontólogo</span>
+
+      <div class="testi-slide active">
+        <p class="testi-quote">Trabajar con SPEIS es de las mejores experiencias que he tenido al comprar bienes raíces. La honestidad que se siente al tratar con ellos hace que uno esté tranquilo; el conocimiento y las recomendaciones que me dieron en el pasado ya dan sus frutos, por lo que puedo decir que los recomiendo y ya lo hago con mi grupo de amigos y familia.</p>
+        <hr>
+        <div class="testi-author">
+          <img src="https://speis.cr/wp-content/uploads/2025/07/testimonial1.webp" alt="Alberto Brenes" loading="lazy">
+          <div>
+            <strong>Alberto Brenes</strong>
+            <span>Odontólogo</span>
+          </div>
         </div>
-        <div class="stars">★★★★★</div>
       </div>
+
+      <div class="testi-slide">
+        <p class="testi-quote">He tenido la oportunidad de invertir varias veces con Speis, y cada experiencia ha sido extraordinaria. Lo que realmente los distingue es el acompañamiento cercano, la dedicación en cada etapa y la calidad de sus recomendaciones.</p>
+        <hr>
+        <div class="testi-author">
+          <img src="https://speis.cr/wp-content/uploads/2025/07/testimonial2.webp" alt="Adrián Rodríguez" loading="lazy">
+          <div>
+            <strong>Adrián Rodríguez</strong>
+            <span>Director de Marketing en la Industria Farmacéutica</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-slide">
+        <p class="testi-quote">Me complace expresar lo positivo que ha significado para mí formar parte de Speis Group en mi rol como abogada inmobiliaria. Trabajar en esta reconocida empresa de bienes raíces ha sido una experiencia profundamente enriquecedora tanto en lo profesional como en lo personal.</p>
+        <hr>
+        <div class="testi-author">
+          <img src="https://speis.cr/wp-content/uploads/2025/07/testimonial3.webp" alt="Elluany Coto" loading="lazy">
+          <div>
+            <strong>Elluany Coto</strong>
+            <span>Abogada Inmobiliaria</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-slide">
+        <p class="testi-quote">Agradezco el servicio que me brindaron. Desde el primer contacto, demostraron una gran seriedad, profesionalismo y, sobre todo, un genuino interés en apoyarme durante todo el proceso. Me sentí acompañada y bien asesorada en cada paso.</p>
+        <hr>
+        <div class="testi-author">
+          <img src="https://speis.cr/wp-content/uploads/2025/07/testimonial4.webp" alt="Maria Elena Agüero" loading="lazy">
+          <div>
+            <strong>Maria Elena Agüero</strong>
+            <span>Pensionada</span>
+          </div>
+        </div>
+      </div>
+
       <div class="dots">
-        <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <button type="button" class="dot active" aria-label="Testimonio 1"></button><button type="button" class="dot" aria-label="Testimonio 2"></button><button type="button" class="dot" aria-label="Testimonio 3"></button><button type="button" class="dot" aria-label="Testimonio 4"></button>
       </div>
     </div>
   </div>
@@ -393,19 +451,19 @@
         <a href="#" class="logo">SPEIS</a>
         <p>Somos profesionales en asesorías de bienes inmuebles.</p>
         <p>Nos dedicamos a acompañarle a través de cada uno de los pasos más importantes de la vida, como lo es adquirir una propiedad o inversión.</p>
-        <a href="#" class="footer-ig" aria-label="Instagram">
+        <a href="https://www.instagram.com/speis.inmobiliaria/" target="_blank" rel="noopener" class="footer-ig" aria-label="Instagram de Speis">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.5-2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
         </a>
       </div>
       <div class="f-col" id="galeria">
         <h5>Galería</h5>
         <div class="gallery-grid">
-          <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=300&q=80" alt="">
+          <img src="https://speis.cr/wp-content/uploads/2025/10/greencitycr1.webp" alt="Condominio Greencity" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2024/11/rotonda.jpeg" alt="Rotonda de un proyecto Speis" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2025/10/greencitycr4.webp" alt="Áreas comunes de Greencity" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2025/10/espavel1.webp" alt="Condominio Espavel" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2024/11/entrada.jpeg" alt="Entrada de un proyecto Speis" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2024/11/sala1.jpeg" alt="Sala de una propiedad Speis" loading="lazy">
         </div>
       </div>
     </div>
@@ -421,88 +479,5 @@
   </div>
 </footer>
 
-<script>
-/* Intro preloader: spell out SPEIS, then reveal the page */
-(function(){
-  var pre = document.getElementById('preloader');
-  if (!pre){ document.body.classList.remove('loading'); return; }
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var DONE_AT = reduce ? 700 : 6000; // letters reveal -> slow gloss sweep -> reveal page (total ~6s)
-  function finish(){
-    pre.classList.add('done');
-    document.body.classList.remove('loading');
-    setTimeout(function(){ if (pre && pre.parentNode) pre.parentNode.removeChild(pre); }, 800);
-  }
-  // allow users to skip the intro
-  pre.addEventListener('click', finish);
-  setTimeout(finish, DONE_AT);
-})();
-
-/* Hero search -> redirect to dedicated property page with filters in the URL */
-(function(){
-  const form = document.getElementById('searchForm');
-  if (!form) return;
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    const params = new URLSearchParams();
-    const kw = document.getElementById('kw').value.trim();
-    const loc = document.getElementById('loc').value;
-    const type = document.getElementById('type').value;
-    if (kw) params.set('kw', kw);
-    if (loc) params.set('loc', loc);
-    if (type) params.set('type', type);
-    const qs = params.toString();
-    window.location.href = 'propiedades.html' + (qs ? '?' + qs : '');
-  });
-})();
-
-/* Carousels */
-document.querySelectorAll('[data-carousel]').forEach(function(c){
-  const track = c.querySelector('[data-track]');
-  const prev  = c.querySelector('.prev');
-  const next  = c.querySelector('.next');
-  if (!track) return;
-  const step = function(){
-    const first = track.querySelector('.card');
-    if (!first) return 320;
-    const s = getComputedStyle(track);
-    const gap = parseFloat(s.columnGap || s.gap || 24) || 24;
-    return first.getBoundingClientRect().width + gap;
-  };
-  if (prev) prev.addEventListener('click', function(){ track.scrollBy({left:-step(), behavior:'smooth'}); });
-  if (next) next.addEventListener('click', function(){ track.scrollBy({left: step(), behavior:'smooth'}); });
-});
-
-/* Nav dropdown */
-(function(){
-  const dd = document.getElementById('navDropdown');
-  if (!dd) return;
-  const btn = dd.querySelector('.nav-dropdown-btn');
-  btn.addEventListener('click', function(e){
-    e.stopPropagation();
-    const open = dd.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  document.addEventListener('click', function(e){
-    if (!dd.contains(e.target)){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
-  });
-  dd.querySelectorAll('.nav-dropdown-menu a').forEach(function(a){
-    a.addEventListener('click', function(){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
-  });
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape'){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
-  });
-})();
-
-/* Testimonial dots */
-document.querySelectorAll('.dots').forEach(function(group){
-  group.querySelectorAll('.dot').forEach(function(d){
-    d.addEventListener('click', function(){
-      group.querySelectorAll('.dot').forEach(function(x){ x.classList.remove('active'); });
-      d.classList.add('active');
-    });
-  });
-});
-</script>
 </body>
 </html>

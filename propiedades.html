@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="script.js" defer></script>
 </head>
 <body>
 
@@ -19,7 +20,7 @@
       <span class="topbar-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg> +506 6303-4870</span>
     </div>
     <div class="topbar-right">
-      <a href="#" class="social-ig" aria-label="Instagram">
+      <a href="https://www.instagram.com/speis.inmobiliaria/" target="_blank" rel="noopener" class="social-ig" aria-label="Instagram de Speis">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="url(#iggrad)">
           <defs>
             <linearGradient id="iggrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -69,7 +70,7 @@
     <div class="results-header">
       <div>
         <span class="eyebrow">Resultados de búsqueda</span>
-        <h2 class="section-title light" style="margin:6px 0 0">Propiedades encontradas</h2>
+        <h2 class="section-title light">Propiedades encontradas</h2>
       </div>
       <a href="index.html" class="back-btn">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M15 6l-6 6 6 6"/></svg>
@@ -87,12 +88,12 @@
         <select id="f_loc">
           <option value="">Todas las ubicaciones</option>
           <option value="san jose">San José</option>
-          <option value="heredia">Heredia</option>
           <option value="alajuela">Alajuela</option>
           <option value="cartago">Cartago</option>
-          <option value="escazu">Escazú</option>
-          <option value="santa ana">Santa Ana</option>
-          <option value="curridabat">Curridabat</option>
+          <option value="heredia">Heredia</option>
+          <option value="guanacaste">Guanacaste</option>
+          <option value="puntarenas">Puntarenas</option>
+          <option value="limon">Limón</option>
         </select>
       </div>
       <div class="search-field">
@@ -115,12 +116,39 @@
 
     <div class="results-toolbar">
       <div class="results-count"><strong id="resultsCount">0</strong> propiedades encontradas</div>
-      <button class="clear-filters" type="button" onclick="clearFilters()">Limpiar filtros</button>
+      <button class="clear-filters" type="button" id="clearFilters">Limpiar filtros</button>
     </div>
 
     <div class="properties-grid" id="propertiesGrid">
+      <article class="card" data-property data-title="Se Vende Casa en Condominio Distrito San Juan" data-location="condominio distrito san juan" data-type="casa">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/distrito1-555x385.jpg" alt="Casa en Condominio Distrito San Juan" loading="lazy"></div>
+        <div class="card-body">
+          <h3>Se Vende Casa en Condominio Distrito San Juan</h3>
+          <p class="loc"><span class="pin"></span>Condominio Distrito San Juan</p>
+          <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Casa en Condominio Villa del Sol en San Rafael de Alajuela" data-location="condominio villa del sol san rafael alajuela" data-type="casa">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/sol1-555x385.jpg" alt="Casa en Condominio Villa del Sol" loading="lazy"></div>
+        <div class="card-body">
+          <h3>Se Vende Casa en Condominio Villa del Sol en San Rafael de Alajuela</h3>
+          <p class="loc"><span class="pin"></span>Condominio Villa del Sol, San Rafael, Alajuela</p>
+          <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Casa en Santa Ana Urbano" data-location="santa ana urbano santa ana san jose" data-type="casa">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/urbano1-555x385.jpg" alt="Casa en Santa Ana Urbano" loading="lazy"></div>
+        <div class="card-body">
+          <h3>Se Vende Casa en Santa Ana Urbano</h3>
+          <p class="loc"><span class="pin"></span>Santa Ana Urbano, Santa Ana, San José</p>
+          <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
       <article class="card" data-property data-title="Se Vende Casa en San Pablo de Heredia" data-location="san pablo heredia" data-type="casa">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/san1-555x385.jpg" alt="Casa en San Pablo de Heredia" loading="lazy"></div>
         <div class="card-body">
           <h3>Se Vende Casa en San Pablo de Heredia</h3>
           <p class="loc"><span class="pin"></span>San Pablo, Heredia, Costa Rica</p>
@@ -128,8 +156,8 @@
         </div>
       </article>
 
-      <article class="card" data-property data-title="Se Vende o Alquila Casa Condominio Interamericana" data-location="san pablo heredia rincon de sabanilla" data-type="casa">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=900&q=80')"></div>
+      <article class="card" data-property data-title="Se Vende o Alquila Casa Condominio Interamericana" data-location="condominio interamericana rincon de sabanilla san pablo heredia" data-type="casa">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/interamericana1-555x385.jpg" alt="Casa en Condominio Interamericana" loading="lazy"></div>
         <div class="card-body">
           <h3>Se Vende o Alquila Casa Condominio Interamericana</h3>
           <p class="loc"><span class="pin"></span>Cond. Interamericana, Rincón de Sabanilla, San Pablo, Heredia</p>
@@ -137,26 +165,46 @@
         </div>
       </article>
 
-      <article class="card" data-property data-title="Se Vende Casa en Condominio Casa Hacienda Tres Rios" data-location="cartago tres rios" data-type="casa">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80')"></div>
+      <article class="card" data-property data-title="Se Vende Casa en Condominio Casa Hacienda Tres Rios" data-location="casa hacienda tres rios la union cartago" data-type="casa">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/hacienda-555x385.jpg" alt="Casa en Condominio Casa Hacienda Tres Ríos" loading="lazy"></div>
         <div class="card-body">
           <h3>Se Vende Casa en Condominio Casa Hacienda Tres Ríos</h3>
-          <p class="loc"><span class="pin"></span>Tres Ríos, Cartago, Costa Rica</p>
+          <p class="loc"><span class="pin"></span>La Unión, Cartago</p>
           <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-gold sm">Detalles</button></div>
         </div>
       </article>
 
-      <article class="card" data-property data-title="Se Vende Lote en Condominio Latitud Lindora" data-location="santa ana lindora pozos" data-type="lote">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1599809275671-b5942cabc7a2?auto=format&fit=crop&w=900&q=80')"></div>
+      <article class="card" data-property data-title="Se Vende Casa en Condominio Vistas del Irazu en Cartago San Isidro" data-location="vistas del irazu san isidro el guarco cartago" data-type="casa">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/vitas1-555x385.jpg" alt="Casa en Condominio Vistas del Irazú" loading="lazy"></div>
+        <div class="card-body">
+          <h3>Se Vende Casa en Cond. Vistas del Irazú, San Isidro</h3>
+          <p class="loc"><span class="pin"></span>Cond. Vistas del Irazú, San Isidro, El Guarco, Cartago</p>
+          <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Apartamento en Torre Bellavista Ulloa Heredia" data-location="torre bellavista ulloa heredia" data-type="apartamento">
+        <div class="card-img placeholder-img">
+          <div class="placeholder-logo">SPEIS</div>
+        </div>
+        <div class="card-body">
+          <h3>Se Vende Apartamento en Torre Bellavista, Ulloa</h3>
+          <p class="loc"><span class="pin"></span>Ulloa, Heredia</p>
+          <div class="card-foot"><span class="tag">Apartamento</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Se Vende Lote en Condominio Latitud Lindora" data-location="condominio latitud lindora santa ana san jose" data-type="lote">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/latitud6-555x385.jpg" alt="Lote en Condominio Latitud Lindora" loading="lazy"></div>
         <div class="card-body">
           <h3>Se Vende Lote en Condominio Latitud Lindora</h3>
-          <p class="loc"><span class="pin"></span>Condominio Latitud Lindora, Santa Ana</p>
+          <p class="loc"><span class="pin"></span>Condominio Latitud Lindora</p>
           <div class="card-foot"><span class="tag">Lote</span><button class="btn btn-dark sm">Detalles</button></div>
         </div>
       </article>
 
-      <article class="card" data-property data-title="Se Vende Lote en Lomas de Ayarco" data-location="san jose curridabat ayarco" data-type="lote">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80')"></div>
+      <article class="card" data-property data-title="Se Vende Lote en Lomas de Ayarco ideal para Apartamentos" data-location="lomas de ayarco norte sanchez curridabat san jose" data-type="lote">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/lot1-555x385.jpg" alt="Lote en Lomas de Ayarco" loading="lazy"></div>
         <div class="card-body">
           <h3>Se Vende Lote en Lomas de Ayarco, ideal para apartamentos</h3>
           <p class="loc"><span class="pin"></span>Lomas de Ayarco Norte, Curridabat, San José</p>
@@ -164,35 +212,26 @@
         </div>
       </article>
 
-      <article class="card" data-property data-title="Se Vende Lote en Condominio Isabella del Carmen" data-location="san jose goicoechea" data-type="lote">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=900&q=80')"></div>
+      <article class="card" data-property data-title="Se Vende Lote en Condominio Isabella del Carmen en Goicoechea" data-location="condominio isabella del carmen goicoechea san jose" data-type="lote">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/carmen6-555x385.jpg" alt="Lote en Condominio Isabella del Carmen" loading="lazy"></div>
         <div class="card-body">
           <h3>Se Vende Lote en Cond. Isabella del Carmen, Goicoechea</h3>
-          <p class="loc"><span class="pin"></span>Goicoechea, San José</p>
+          <p class="loc"><span class="pin"></span>Goicoechea</p>
           <div class="card-foot"><span class="tag">Lote</span><button class="btn btn-dark sm">Detalles</button></div>
         </div>
       </article>
 
-      <article class="card" data-property data-title="Se Vende Lote en Condominio Las Mesetas Los Reyes" data-location="alajuela guacima los reyes" data-type="lote">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80')"></div>
+      <article class="card" data-property data-title="Se Vende Lote en Condominio Las Mesetas en Los Reyes" data-location="condominio las mesetas los reyes guacima alajuela" data-type="lote">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2026/01/lote1-555x385.jpg" alt="Lote en Condominio Las Mesetas" loading="lazy"></div>
         <div class="card-body">
           <h3>Se Vende Lote en Cond. Las Mesetas, Los Reyes</h3>
-          <p class="loc"><span class="pin"></span>Guácima, Alajuela, Costa Rica</p>
+          <p class="loc"><span class="pin"></span>Guácima, Alajuela</p>
           <div class="card-foot"><span class="tag">Lote</span><button class="btn btn-dark sm">Detalles</button></div>
-        </div>
-      </article>
-
-      <article class="card" data-property data-title="Se Vende Casa en Condominio Vistas del Irazu" data-location="cartago san isidro guarco" data-type="casa">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=900&q=80')"></div>
-        <div class="card-body">
-          <h3>Se Vende Casa en Cond. Vistas del Irazú, San Isidro</h3>
-          <p class="loc"><span class="pin"></span>San Isidro, El Guarco, Cartago</p>
-          <div class="card-foot"><span class="tag">Casa</span><button class="btn btn-dark sm">Detalles</button></div>
         </div>
       </article>
 
       <article class="card" data-property data-title="Condominio Casa Alturas" data-location="san pablo heredia" data-type="condominio">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80')"></div>
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/10/renderCaseta-600x385.webp" alt="Condominio Casa Alturas" loading="lazy"></div>
         <div class="card-body">
           <h3>Condominio Casa Alturas</h3>
           <p class="loc"><span class="pin"></span>San Pablo, Heredia, Costa Rica</p>
@@ -200,8 +239,8 @@
         </div>
       </article>
 
-      <article class="card" data-property data-title="Condominio Luah" data-location="escazu jaboncillos" data-type="condominio">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80')"></div>
+      <article class="card" data-property data-title="Condominio Luah" data-location="jaboncillos escazu san jose" data-type="condominio">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/10/entradaLuah-600x385.webp" alt="Condominio Luah" loading="lazy"></div>
         <div class="card-body">
           <h3>Condominio Luah</h3>
           <p class="loc"><span class="pin"></span>Jaboncillos, Escazú</p>
@@ -209,28 +248,44 @@
         </div>
       </article>
 
-      <article class="card" data-property data-title="Condominio Caia Homes" data-location="escazu vista alegre" data-type="condominio">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80')">
-          <span class="badge-vendido">100% VENDIDO</span>
-        </div>
+      <article class="card" data-property data-title="Condominio Caia Homes" data-location="escazu vista alegre san jose" data-type="condominio">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/09/caiHomes.jpg" alt="Condominio Caia Homes" loading="lazy"></div>
         <div class="card-body">
           <h3>Condominio Caia Homes</h3>
-          <p class="loc"><span class="pin"></span>C. Alemanes, Escazú, Vista Alegre, San José</p>
+          <p class="loc"><span class="pin"></span>C. Alemanes, San José, Escazú, Vista Alegre</p>
           <div class="card-foot"><span class="tag">Condominio</span><button class="btn btn-gold sm">Detalles</button></div>
         </div>
       </article>
 
-      <article class="card" data-property data-title="Condominio Greencity" data-location="alajuela san rafael ruta 27" data-type="condominio">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80')"></div>
+      <article class="card" data-property data-title="Condominio Parkwood Nunciatura" data-location="rohrmoser nunciatura san jose" data-type="condominio">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/09/parkwood.jpg" alt="Condominio Parkwood Nunciatura" loading="lazy"></div>
         <div class="card-body">
-          <h3>Condominio Greencity</h3>
-          <p class="loc"><span class="pin"></span>Peaje San Rafael, Ruta 27, Alajuela</p>
+          <h3>Condominio Parkwood Nunciatura</h3>
+          <p class="loc"><span class="pin"></span>San José, Rohrmoser</p>
           <div class="card-foot"><span class="tag">Condominio</span><button class="btn btn-dark sm">Detalles</button></div>
         </div>
       </article>
 
-      <article class="card" data-property data-title="Condominio Astura" data-location="san jose san isidro vazquez de coronado" data-type="condominio">
-        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1564013434775-f71db0030976?auto=format&fit=crop&w=900&q=80')"></div>
+      <article class="card" data-property data-title="Condominio Espavel" data-location="guacima abajo guacima alajuela" data-type="condominio">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2024/11/piscina2-600x385.jpeg" alt="Condominio Espavel" loading="lazy"></div>
+        <div class="card-body">
+          <h3>Condominio Espavel</h3>
+          <p class="loc"><span class="pin"></span>Guácima Abajo, Guácima, Alajuela</p>
+          <div class="card-foot"><span class="tag">Condominio</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Condominio Greencity" data-location="peaje san rafael ruta 27 alajuela" data-type="condominio">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/10/greencity2-600x385.webp" alt="Condominio Greencity" loading="lazy"></div>
+        <div class="card-body">
+          <h3>Condominio Greencity</h3>
+          <p class="loc"><span class="pin"></span>Lado sur, Peaje San Rafael, Ruta 27, Alajuela</p>
+          <div class="card-foot"><span class="tag">Condominio</span><button class="btn btn-dark sm">Detalles</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-property data-title="Condominio Astura" data-location="san isidro vazquez de coronado san jose" data-type="condominio">
+        <div class="card-img"><img src="https://speis.cr/wp-content/uploads/2025/09/foto1-600x385.webp" alt="Condominio Astura" loading="lazy"></div>
         <div class="card-body">
           <h3>Condominio Astura</h3>
           <p class="loc"><span class="pin"></span>San Isidro, Vázquez de Coronado, San José</p>
@@ -238,7 +293,7 @@
         </div>
       </article>
 
-      <div class="no-results" id="noResults" style="display:none">No se encontraron propiedades con esos criterios. Intente con otra búsqueda.</div>
+      <div class="no-results" id="noResults">No se encontraron propiedades con esos criterios. Intente con otra búsqueda.</div>
     </div>
   </div>
 </section>
@@ -275,19 +330,19 @@
         <a href="index.html" class="logo">SPEIS</a>
         <p>Somos profesionales en asesorías de bienes inmuebles.</p>
         <p>Nos dedicamos a acompañarle a través de cada uno de los pasos más importantes de la vida, como lo es adquirir una propiedad o inversión.</p>
-        <a href="#" class="footer-ig" aria-label="Instagram">
+        <a href="https://www.instagram.com/speis.inmobiliaria/" target="_blank" rel="noopener" class="footer-ig" aria-label="Instagram de Speis">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.5-2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
         </a>
       </div>
       <div class="f-col">
         <h5>Galería</h5>
         <div class="gallery-grid">
-          <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80" alt="">
-          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=300&q=80" alt="">
+          <img src="https://speis.cr/wp-content/uploads/2025/10/greencitycr1.webp" alt="Condominio Greencity" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2024/11/rotonda.jpeg" alt="Rotonda de un proyecto Speis" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2025/10/greencitycr4.webp" alt="Áreas comunes de Greencity" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2025/10/espavel1.webp" alt="Condominio Espavel" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2024/11/entrada.jpeg" alt="Entrada de un proyecto Speis" loading="lazy">
+          <img src="https://speis.cr/wp-content/uploads/2024/11/sala1.jpeg" alt="Sala de una propiedad Speis" loading="lazy">
         </div>
       </div>
     </div>
@@ -303,124 +358,5 @@
   </div>
 </footer>
 
-<script>
-/* ====== Property search page ====== */
-function normalize(s){
-  return (s||'').toString().toLowerCase()
-    .normalize('NFD').replace(/[̀-ͯ]/g,''); // accent-insensitive
-}
-var LOC_LABELS = {'san jose':'San José','heredia':'Heredia','alajuela':'Alajuela','cartago':'Cartago','escazu':'Escazú','santa ana':'Santa Ana','curridabat':'Curridabat'};
-var TYPE_LABELS = {casa:'Casa',apartamento:'Apartamento',lote:'Lote',condominio:'Condominio'};
-
-function applyFilters(){
-  var kw   = normalize(document.getElementById('f_kw').value.trim());
-  var loc  = normalize(document.getElementById('f_loc').value);
-  var type = normalize(document.getElementById('f_type').value);
-  var cards = document.querySelectorAll('#propertiesGrid [data-property]');
-  var visible = 0;
-  cards.forEach(function(card){
-    var title = normalize(card.dataset.title);
-    var cloc  = normalize(card.dataset.location);
-    var ctype = normalize(card.dataset.type);
-    var matchKw   = !kw   || title.includes(kw) || cloc.includes(kw) || ctype.includes(kw);
-    var matchLoc  = !loc  || cloc.includes(loc);
-    var matchType = !type || ctype === type;
-    var show = matchKw && matchLoc && matchType;
-    card.style.display = show ? '' : 'none';
-    if (show) visible++;
-  });
-  document.getElementById('resultsCount').textContent = visible;
-  document.getElementById('noResults').style.display = visible ? 'none' : 'block';
-  renderActiveFilters();
-  syncUrl();
-}
-
-function renderActiveFilters(){
-  var wrap = document.getElementById('activeFilters');
-  if (!wrap) return;
-  var kw = document.getElementById('f_kw').value.trim();
-  var loc = document.getElementById('f_loc').value;
-  var type = document.getElementById('f_type').value;
-  wrap.innerHTML = '';
-  function make(label, clear){
-    var c = document.createElement('span');
-    c.className = 'chip';
-    c.innerHTML = label + ' <button type="button" aria-label="Quitar">×</button>';
-    c.querySelector('button').addEventListener('click', function(){ clear(); applyFilters(); });
-    wrap.appendChild(c);
-  }
-  if (kw)   make('“' + kw + '”', function(){ document.getElementById('f_kw').value = ''; });
-  if (loc)  make(LOC_LABELS[loc] || loc, function(){ document.getElementById('f_loc').value = ''; });
-  if (type) make(TYPE_LABELS[type] || type, function(){ document.getElementById('f_type').value = ''; });
-}
-
-function clearFilters(){
-  document.getElementById('f_kw').value = '';
-  document.getElementById('f_loc').value = '';
-  document.getElementById('f_type').value = '';
-  applyFilters();
-}
-
-function syncUrl(){
-  var params = new URLSearchParams();
-  var kw = document.getElementById('f_kw').value.trim();
-  var loc = document.getElementById('f_loc').value;
-  var type = document.getElementById('f_type').value;
-  if (kw) params.set('kw', kw);
-  if (loc) params.set('loc', loc);
-  if (type) params.set('type', type);
-  var qs = params.toString();
-  history.replaceState(null, '', qs ? '?' + qs : location.pathname);
-}
-
-/* Read filters from the URL (passed from the home page search) */
-(function initFromUrl(){
-  var params = new URLSearchParams(location.search);
-  var kw = params.get('kw') || '';
-  var loc = params.get('loc') || '';
-  var type = params.get('type') || '';
-  document.getElementById('f_kw').value = kw;
-  if ([].some.call(document.getElementById('f_loc').options, function(o){ return o.value === loc; })) {
-    document.getElementById('f_loc').value = loc;
-  }
-  if ([].some.call(document.getElementById('f_type').options, function(o){ return o.value === type; })) {
-    document.getElementById('f_type').value = type;
-  }
-  applyFilters();
-})();
-
-/* Live filtering + submit */
-['f_kw','f_loc','f_type'].forEach(function(id){
-  var el = document.getElementById(id);
-  if (!el) return;
-  var ev = el.tagName === 'SELECT' ? 'change' : 'input';
-  el.addEventListener(ev, applyFilters);
-});
-document.getElementById('resultsSearchForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  applyFilters();
-});
-
-/* Nav dropdown */
-(function(){
-  var dd = document.getElementById('navDropdown');
-  if (!dd) return;
-  var btn = dd.querySelector('.nav-dropdown-btn');
-  btn.addEventListener('click', function(e){
-    e.stopPropagation();
-    var open = dd.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  document.addEventListener('click', function(e){
-    if (!dd.contains(e.target)){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
-  });
-  dd.querySelectorAll('.nav-dropdown-menu a').forEach(function(a){
-    a.addEventListener('click', function(){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
-  });
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape'){ dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
-  });
-})();
-</script>
 </body>
 </html>
