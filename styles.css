@@ -242,6 +242,33 @@ ul{list-style:none}
 .testi-slide.active{display:block}
 .testi-quote{margin-top:10px;font-size:.95rem;line-height:1.7}
 .contact-note{color:#cfcfcf}
+
+/* Contáctenos — scroll-driven 3D card reveal (vanilla port of the framer ContainerScroll effect) */
+.contact-section{overflow:hidden} /* contain the tilted card's shadow */
+.scroll-head{will-change:transform}
+.scroll-card{
+  width:100%;margin:30px auto 0;padding:14px;
+  background:var(--bg-darker);
+  border:3px solid rgba(201,169,110,.30);
+  border-radius:28px;
+  box-shadow:0 10px 28px rgba(0,0,0,.34),0 34px 60px rgba(0,0,0,.26),0 90px 80px rgba(0,0,0,.12);
+  transform:perspective(1000px) rotateX(0deg) scale(1); /* flat, visible base state (no-JS / pre-scroll) */
+  will-change:transform;
+}
+.scroll-card-inner{
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:18px;
+  padding:24px;
+}
+.scroll-card .contact-form{margin-top:0}
+@media (max-width:768px){
+  .scroll-card{padding:10px;border-radius:22px;margin-top:22px}
+  .scroll-card-inner{padding:16px;border-radius:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  .scroll-card,.scroll-head{transform:none !important}
+}
 .testimonial-section hr{border:0;border-top:1px solid #e5e5e5;margin:18px 0}
 .testi-author{display:flex;align-items:center;gap:12px}
 .testi-author img{width:42px;height:42px;border-radius:50%;object-fit:cover}

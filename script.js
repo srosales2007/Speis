@@ -403,3 +403,44 @@ function plMapType(label) {
     }
   }
 })();
+
+/* ====== Contáctenos — scroll-driven 3D card reveal (index) ======
+   Vanilla port of the framer ContainerScroll effect: as the section scrolls into
+   view the card tilts flat (rotateX 16->0), settles its scale (1.03->1) and the
+   heading lifts slightly — the same useTransform mappings, no library. */
+(function () {
+  var section = document.querySelector('.contact-section');
+  if (!section) return;
+  var card = section.querySelector('.scroll-card');
+  if (!card) return;
+  var head = section.querySelector('.scroll-head');
+
+  // Respect reduced-motion: leave the flat, fully-visible base state untouched.
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var mq = window.matchMedia('(max-width: 768px)');
+  var mobile = mq.matches;
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var top = section.getBoundingClientRect().top;
+    // p: 0 when the section top sits at the viewport bottom, 1 once it's near the top.
+    var p = (vh - top) / (vh - vh * 0.15);
+    p = p < 0 ? 0 : p > 1 ? 1 : p;
+
+    var rotate = lerp(16, 0, p);
+    var scale = lerp(mobile ? 0.97 : 1.03, 1, p);
+    card.style.transform = 'perspective(1000px) rotateX(' + rotate.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
+    if (head) head.style.transform = 'translateY(' + lerp(0, -26, p).toFixed(1) + 'px)';
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { mobile = mq.matches; update(); });
+  update();
+})();
