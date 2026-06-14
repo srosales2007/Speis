@@ -13,6 +13,7 @@
   --font-body:'Manrope',system-ui,-apple-system,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none !important} /* author display rules (flex/grid) otherwise override the hidden attr */
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);color:var(--text-dark);background:var(--bg-dark);line-height:1.55;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
