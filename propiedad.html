@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Búsqueda de propiedades – Speis</title>
+<title>Detalle de propiedad – Speis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -22,13 +22,7 @@
     <div class="topbar-right">
       <a href="https://www.instagram.com/speis.inmobiliaria/" target="_blank" rel="noopener" class="social-ig" aria-label="Instagram de Speis">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="url(#iggrad)">
-          <defs>
-            <linearGradient id="iggrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#f58529"/>
-              <stop offset="50%" stop-color="#dd2a7b"/>
-              <stop offset="100%" stop-color="#8134af"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="iggrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f58529"/><stop offset="50%" stop-color="#dd2a7b"/><stop offset="100%" stop-color="#8134af"/></linearGradient></defs>
           <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.5-2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
         </svg>
       </a>
@@ -64,75 +58,26 @@
   </div>
 </header>
 
-<!-- RESULTADOS DE BÚSQUEDA -->
-<section class="section section-dark" id="propiedades">
+<!-- DETALLE -->
+<section class="section section-dark" id="detail">
   <div class="container">
-    <div class="results-header">
-      <div>
-        <span class="eyebrow">Resultados de búsqueda</span>
-        <h2 class="section-title light">Propiedades encontradas</h2>
+    <a href="propiedades.html" class="back-btn">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M15 6l-6 6 6 6"/></svg>
+      Volver a propiedades
+    </a>
+
+    <div id="propertyDetail" class="detail-wrap" aria-live="polite">
+      <div class="grid-status" id="detailLoading">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Cargando propiedad…</p>
       </div>
-      <a href="index.html" class="back-btn">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M15 6l-6 6 6 6"/></svg>
-        Volver al inicio
-      </a>
+      <div class="grid-status" id="detailError" hidden>
+        <p>No pudimos cargar esta propiedad en este momento.</p>
+        <a class="btn btn-gold sm" href="propiedades.html">Ver todas las propiedades</a>
+      </div>
+      <div id="detailContent" hidden></div>
     </div>
-
-    <form class="results-search" id="resultsSearchForm">
-      <div class="search-field">
-        <label for="f_kw">Palabra clave</label>
-        <input id="f_kw" type="text" placeholder="Casa, lote, condominio…" autocomplete="off">
-      </div>
-      <div class="search-field">
-        <label for="f_loc">Ubicación</label>
-        <select id="f_loc">
-          <option value="">Todas las ubicaciones</option>
-          <option value="san jose">San José</option>
-          <option value="alajuela">Alajuela</option>
-          <option value="cartago">Cartago</option>
-          <option value="heredia">Heredia</option>
-          <option value="guanacaste">Guanacaste</option>
-          <option value="puntarenas">Puntarenas</option>
-          <option value="limon">Limón</option>
-        </select>
-      </div>
-      <div class="search-field">
-        <label for="f_type">Tipo de propiedad</label>
-        <select id="f_type">
-          <option value="">Todos los tipos</option>
-          <option value="casa">Casa</option>
-          <option value="apartamento">Apartamento</option>
-          <option value="lote">Lote</option>
-          <option value="condominio">Condominio</option>
-        </select>
-      </div>
-      <button type="submit" class="search-submit">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
-        Actualizar
-      </button>
-    </form>
-
-    <div class="active-filters" id="activeFilters"></div>
-
-    <div class="results-toolbar">
-      <div class="results-count"><strong id="resultsCount">0</strong> propiedades encontradas</div>
-      <button class="clear-filters" type="button" id="clearFilters">Limpiar filtros</button>
-    </div>
-
-    <!-- Estados de carga / error (manejados por script.js) -->
-    <div class="grid-status" id="gridLoading">
-      <div class="spinner" aria-hidden="true"></div>
-      <p>Cargando propiedades…</p>
-    </div>
-    <div class="grid-status" id="gridError" hidden>
-      <p>No pudimos cargar las propiedades en este momento.</p>
-      <button class="btn btn-gold sm" type="button" id="retryLoad">Reintentar</button>
-    </div>
-
-    <!-- Las tarjetas se inyectan en vivo desde /api/properties (Wasi) -->
-    <div class="properties-grid" id="propertiesGrid" hidden aria-live="polite"></div>
-    <p class="no-results" id="noResults">No se encontraron propiedades con esos criterios. Intente con otra búsqueda.</p>
-      </div>
+  </div>
 </section>
 
 <!-- FOOTER -->
@@ -141,27 +86,17 @@
     <div class="footer-contact">
       <div class="fc-item">
         <span class="fc-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span>
-        <div>
-          <div class="fc-label">Dirección</div>
-          <div class="fc-text">Santa Ana, Pozos, Paseo Lindora, Local 2</div>
-        </div>
+        <div><div class="fc-label">Dirección</div><div class="fc-text">Santa Ana, Pozos, Paseo Lindora, Local 2</div></div>
       </div>
       <div class="fc-item">
         <span class="fc-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm8 7L4 6v2l8 5 8-5V6l-8 5z"/></svg></span>
-        <div>
-          <div class="fc-label">Correo</div>
-          <div class="fc-text">ventas@speis.cr</div>
-        </div>
+        <div><div class="fc-label">Correo</div><div class="fc-text">ventas@speis.cr</div></div>
       </div>
       <div class="fc-item">
         <span class="fc-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20 15.5c-1.2 0-2.5-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.2-3.7-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.4-.6-3.6 0-.5-.5-1-1-1H4c-.5 0-1 .5-1 1 0 9.4 7.6 17 17 17 .5 0 1-.5 1-1v-3.4c0-.5-.5-1-1-1z"/></svg></span>
-        <div>
-          <div class="fc-label">Teléfono</div>
-          <div class="fc-text">+506 6303-4870</div>
-        </div>
+        <div><div class="fc-label">Teléfono</div><div class="fc-text">+506 6303-4870</div></div>
       </div>
     </div>
-
     <div class="footer-grid">
       <div class="f-col">
         <a href="index.html" class="logo">SPEIS</a>
@@ -171,7 +106,7 @@
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.5-2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
         </a>
       </div>
-      <div class="f-col">
+      <div class="f-col" id="galeria">
         <h5>Galería</h5>
         <div class="gallery-grid">
           <img src="https://speis.cr/wp-content/uploads/2025/10/greencitycr1.webp" alt="Condominio Greencity" loading="lazy">
@@ -183,17 +118,12 @@
         </div>
       </div>
     </div>
-
     <div class="footer-bottom">
       <span>© 2025 Derechos de autor por Speis. Todos los derechos reservados.</span>
-      <div class="footer-links">
-        <a href="#">Términos y condiciones</a>
-        <a href="#">Política de privacidad</a>
-      </div>
+      <div class="footer-links"><a href="#">Términos y condiciones</a><a href="#">Política de privacidad</a></div>
     </div>
     <div class="footer-dev">Desarrollado por <span class="gold">Locally</span></div>
   </div>
 </footer>
-
 </body>
 </html>

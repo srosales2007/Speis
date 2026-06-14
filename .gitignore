@@ -1,0 +1,17 @@
+# dependencias
+node_modules/
+
+# entorno local (se conserva .env.example)
+.env
+.env.*
+!.env.example
+
+# vercel
+.vercel/
+
+# notas locales (no se comparten)
+CLAUDE.local.md
+
+# sistema
+.DS_Store
+Thumbs.db

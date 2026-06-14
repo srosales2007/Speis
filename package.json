@@ -1,0 +1,13 @@
+{
+  "name": "speis",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Sitio estático de SPEIS con proxy serverless a la API de Wasi (Vercel).",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "engines": { "node": ">=18.18" },
+  "devDependencies": { "vercel": "^39.0.0" }
+}

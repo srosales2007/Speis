@@ -92,38 +92,131 @@ document.querySelectorAll('[data-carousel]').forEach(function (c) {
   show(0);
 })();
 
-/* ====== Property filters (propiedades) ====== */
+/* ====== Shared fetch helper: JSON + one retry on failure ====== */
+function wasiFetchJson(url, retries) {
+  retries = retries == null ? 1 : retries;
+  return fetch(url, { headers: { Accept: 'application/json' } })
+    .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .catch(function (err) {
+      if (retries > 0) return new Promise(function (res) { setTimeout(res, 400); })
+        .then(function () { return wasiFetchJson(url, retries - 1); });
+      throw err;
+    });
+}
+
+function plNormalize(s) {
+  return (s || '').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+function plMapType(label) {
+  var t = plNormalize(label);
+  if (t.indexOf('aparta') >= 0 || t.indexOf('apto') >= 0) return 'apartamento';
+  if (t.indexOf('lote') >= 0 || t.indexOf('terreno') >= 0 || t.indexOf('finca') >= 0) return 'lote';
+  if (t.indexOf('condominio') >= 0) return 'condominio';
+  return 'casa';
+}
+
+/* ====== Live properties listing (propiedades.html) ====== */
 (function () {
   var grid = document.getElementById('propertiesGrid');
-  if (!grid) return;
+  var form = document.getElementById('resultsSearchForm');
+  if (!grid || !form) return; // only the listings page
 
   var LOC_LABELS = { 'san jose': 'San José', 'alajuela': 'Alajuela', 'cartago': 'Cartago', 'heredia': 'Heredia', 'guanacaste': 'Guanacaste', 'puntarenas': 'Puntarenas', 'limon': 'Limón' };
   var TYPE_LABELS = { casa: 'Casa', apartamento: 'Apartamento', lote: 'Lote', condominio: 'Condominio' };
+  var loadingEl = document.getElementById('gridLoading');
+  var errorEl = document.getElementById('gridError');
+  var noResults = document.getElementById('noResults');
 
-  function normalize(s) {
-    return (s || '').toString().toLowerCase()
-      .normalize('NFD').replace(/[̀-ͯ]/g, ''); // accent-insensitive
+  function setState(s) { // 'loading' | 'error' | 'ready'
+    if (loadingEl) loadingEl.hidden = s !== 'loading';
+    if (errorEl) errorEl.hidden = s !== 'error';
+    grid.hidden = s !== 'ready';
+    if (noResults && s !== 'ready') noResults.classList.remove('show');
   }
 
+  function buildMeta(p) {
+    var items = [];
+    if (p.bedrooms) items.push(p.bedrooms + ' hab');
+    if (p.bathrooms) items.push(p.bathrooms + ' baños');
+    if (p.area) items.push(p.area);
+    if (!items.length) return null;
+    var ul = document.createElement('ul'); ul.className = 'card-meta';
+    items.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
+    return ul;
+  }
+
+  function buildCard(p) {
+    var bucket = plMapType(p.type);
+    var href = 'propiedad.html?id=' + encodeURIComponent(p.id);
+    var locText = [p.city, p.region].filter(Boolean).join(', ') || p.address || 'Costa Rica';
+
+    var card = document.createElement('article');
+    card.className = 'card';
+    card.setAttribute('data-property', '');
+    card.dataset.id = p.id;
+    card.dataset.title = p.title || '';
+    card.dataset.location = plNormalize([p.region, p.city, p.zone, p.address].filter(Boolean).join(' '));
+    card.dataset.type = bucket;
+
+    var imgWrap = document.createElement('a');
+    imgWrap.className = 'card-img';
+    imgWrap.href = href;
+    if (p.image && /^https?:/.test(p.image)) {
+      var img = document.createElement('img');
+      img.src = p.image; img.alt = p.title || 'Propiedad'; img.loading = 'lazy';
+      imgWrap.appendChild(img);
+    } else {
+      imgWrap.classList.add('placeholder-img');
+      var ph = document.createElement('div'); ph.className = 'placeholder-logo'; ph.textContent = 'SPEIS';
+      imgWrap.appendChild(ph);
+    }
+    card.appendChild(imgWrap);
+
+    var body = document.createElement('div'); body.className = 'card-body';
+    var h3 = document.createElement('h3'); h3.textContent = p.title || 'Propiedad'; body.appendChild(h3);
+
+    var loc = document.createElement('p'); loc.className = 'loc';
+    var pin = document.createElement('span'); pin.className = 'pin'; loc.appendChild(pin);
+    loc.appendChild(document.createTextNode(locText)); body.appendChild(loc);
+
+    if (p.priceLabel) { var pr = document.createElement('p'); pr.className = 'card-price'; pr.textContent = p.priceLabel; body.appendChild(pr); }
+    var meta = buildMeta(p); if (meta) body.appendChild(meta);
+
+    var foot = document.createElement('div'); foot.className = 'card-foot';
+    var tag = document.createElement('span'); tag.className = 'tag';
+    tag.textContent = p.type || TYPE_LABELS[bucket] || 'Propiedad'; // real Wasi name
+    foot.appendChild(tag);
+    var det = document.createElement('a'); det.className = 'btn btn-dark sm'; det.href = href; det.textContent = 'Detalles'; foot.appendChild(det);
+    body.appendChild(foot);
+
+    card.appendChild(body);
+    return card;
+  }
+
+  function render(properties) {
+    var frag = document.createDocumentFragment();
+    properties.forEach(function (p) { frag.appendChild(buildCard(p)); });
+    grid.innerHTML = '';
+    grid.appendChild(frag);
+  }
+
+  /* ---- filters: identical UX, now over the live-rendered cards ---- */
   function applyFilters() {
-    var kw = normalize(document.getElementById('f_kw').value.trim());
-    var loc = normalize(document.getElementById('f_loc').value);
-    var type = normalize(document.getElementById('f_type').value);
+    var kw = plNormalize(document.getElementById('f_kw').value.trim());
+    var loc = plNormalize(document.getElementById('f_loc').value);
+    var type = plNormalize(document.getElementById('f_type').value);
     var cards = grid.querySelectorAll('[data-property]');
     var visible = 0;
     cards.forEach(function (card) {
-      var title = normalize(card.dataset.title);
-      var cloc = normalize(card.dataset.location);
-      var ctype = normalize(card.dataset.type);
-      var matchKw = !kw || title.includes(kw) || cloc.includes(kw) || ctype.includes(kw);
-      var matchLoc = !loc || cloc.includes(loc);
-      var matchType = !type || ctype === type;
+      var matchKw = !kw || plNormalize(card.dataset.title).includes(kw) || plNormalize(card.dataset.location).includes(kw) || plNormalize(card.dataset.type).includes(kw);
+      var matchLoc = !loc || plNormalize(card.dataset.location).includes(loc);
+      var matchType = !type || plNormalize(card.dataset.type) === type;
       var show = matchKw && matchLoc && matchType;
       card.classList.toggle('is-hidden', !show);
       if (show) visible++;
     });
     document.getElementById('resultsCount').textContent = visible;
-    document.getElementById('noResults').classList.toggle('show', visible === 0);
+    if (noResults) noResults.classList.toggle('show', visible === 0);
     renderActiveFilters();
     syncUrl();
   }
@@ -159,29 +252,154 @@ document.querySelectorAll('[data-carousel]').forEach(function (c) {
     history.replaceState(null, '', qs ? '?' + qs : location.pathname);
   }
 
-  // Read filters from the URL (passed from the home page search)
-  var params = new URLSearchParams(location.search);
-  document.getElementById('f_kw').value = params.get('kw') || '';
-  ['f_loc', 'f_type'].forEach(function (id) {
-    var want = params.get(id === 'f_loc' ? 'loc' : 'type') || '';
-    var sel = document.getElementById(id);
-    if ([].some.call(sel.options, function (o) { return o.value === want; })) sel.value = want;
-  });
+  function readUrlIntoFilters() {
+    var params = new URLSearchParams(location.search);
+    document.getElementById('f_kw').value = params.get('kw') || '';
+    [['f_loc', 'loc'], ['f_type', 'type']].forEach(function (pair) {
+      var sel = document.getElementById(pair[0]);
+      var want = params.get(pair[1]) || '';
+      if ([].some.call(sel.options, function (o) { return o.value === want; })) sel.value = want;
+    });
+  }
 
-  // Live filtering + submit + clear
+  // wire filter controls once (the inputs are static markup)
   ['f_kw', 'f_loc', 'f_type'].forEach(function (id) {
     var el = document.getElementById(id);
     el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', applyFilters);
   });
-  document.getElementById('resultsSearchForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    applyFilters();
-  });
+  form.addEventListener('submit', function (e) { e.preventDefault(); applyFilters(); });
   var clearBtn = document.getElementById('clearFilters');
   if (clearBtn) clearBtn.addEventListener('click', function () {
     ['f_kw', 'f_loc', 'f_type'].forEach(function (id) { document.getElementById(id).value = ''; });
     applyFilters();
   });
 
-  applyFilters();
+  function load() {
+    setState('loading');
+    wasiFetchJson('/api/properties').then(function (data) {
+      if (!data || data.status !== 'success' || !Array.isArray(data.properties)) throw new Error('bad payload');
+      render(data.properties);
+      setState('ready');
+      readUrlIntoFilters();
+      applyFilters(); // also surfaces the empty state via #noResults
+    }).catch(function () { setState('error'); });
+  }
+  var retry = document.getElementById('retryLoad');
+  if (retry) retry.addEventListener('click', load);
+  load();
+})();
+
+/* ====== Property detail (propiedad.html) ====== */
+(function () {
+  var root = document.getElementById('propertyDetail');
+  if (!root) return;
+  var loadingEl = document.getElementById('detailLoading');
+  var errorEl = document.getElementById('detailError');
+  var contentEl = document.getElementById('detailContent');
+  var id = new URLSearchParams(location.search).get('id');
+
+  function state(s) {
+    if (loadingEl) loadingEl.hidden = s !== 'loading';
+    if (errorEl) errorEl.hidden = s !== 'error';
+    if (contentEl) contentEl.hidden = s !== 'ready';
+  }
+  if (!id) { state('error'); return; }
+  state('loading');
+
+  wasiFetchJson('/api/property?id=' + encodeURIComponent(id)).then(function (data) {
+    if (!data || data.status !== 'success' || !data.property) throw new Error('not found');
+    renderDetail(data.property);
+    state('ready');
+  }).catch(function () { state('error'); });
+
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  function renderDetail(p) {
+    document.title = (p.title || 'Propiedad') + ' – Speis';
+    contentEl.innerHTML = '';
+
+    var gridWrap = el('div', 'detail-grid');
+
+    // --- media ---
+    var media = el('div', 'detail-media');
+    var gallery = (p.gallery && p.gallery.length) ? p.gallery : (p.image ? [{ full: p.image, thumb: p.image }] : []);
+    var mainImg = el('img', 'detail-main-img');
+    if (gallery[0]) { mainImg.src = gallery[0].full; mainImg.alt = p.title || 'Propiedad'; }
+    media.appendChild(mainImg);
+    if (gallery.length > 1) {
+      var thumbs = el('div', 'detail-thumbs');
+      gallery.forEach(function (g, i) {
+        var t = el('img'); t.src = g.thumb; t.alt = (p.title || 'Foto') + ' ' + (i + 1); t.loading = 'lazy';
+        if (i === 0) t.classList.add('active');
+        t.addEventListener('click', function () {
+          mainImg.src = g.full;
+          thumbs.querySelectorAll('img').forEach(function (x) { x.classList.remove('active'); });
+          t.classList.add('active');
+        });
+        thumbs.appendChild(t);
+      });
+      media.appendChild(thumbs);
+    }
+    gridWrap.appendChild(media);
+
+    // --- info ---
+    var info = el('div', 'detail-info');
+    var badge = [];
+    if (p.forSale) badge.push('En venta');
+    if (p.forRent) badge.push('En alquiler');
+    if (p.type) badge.push(p.type);
+    info.appendChild(el('span', 'eyebrow', badge.join(' · ')));
+    info.appendChild(el('h1', 'detail-title', p.title || 'Propiedad'));
+
+    var loc = el('p', 'loc'); loc.appendChild(el('span', 'pin'));
+    loc.appendChild(document.createTextNode([p.address, p.city, p.region].filter(Boolean).join(', ') || 'Costa Rica'));
+    info.appendChild(loc);
+
+    info.appendChild(el('p', 'detail-price', p.priceLabel || 'Consultar precio'));
+
+    var metaItems = [];
+    if (p.bedrooms) metaItems.push(p.bedrooms + ' habitaciones');
+    if (p.bathrooms) metaItems.push(p.bathrooms + ' baños');
+    if (p.garages) metaItems.push(p.garages + ' parqueos');
+    if (p.area) metaItems.push(p.area);
+    if (metaItems.length) {
+      var ul = el('ul', 'detail-meta');
+      metaItems.forEach(function (t) { ul.appendChild(el('li', null, t)); });
+      info.appendChild(ul);
+    }
+
+    var wa = el('a', 'btn btn-wa', null);
+    wa.href = 'https://wa.me/50663034870?text=' + encodeURIComponent('Hola, me interesa: ' + (p.title || ('propiedad ' + p.id)));
+    wa.target = '_blank'; wa.rel = 'noopener';
+    wa.appendChild(document.createTextNode('Consultar por WhatsApp'));
+    info.appendChild(wa);
+
+    if (p.description) {
+      var desc = el('div', 'detail-block');
+      desc.appendChild(el('h3', null, 'Descripción'));
+      desc.appendChild(el('p', null, p.description));
+      info.appendChild(desc);
+    }
+    if (p.features && p.features.length) {
+      var feat = el('div', 'detail-block');
+      feat.appendChild(el('h3', null, 'Características'));
+      var fl = el('ul', 'detail-features');
+      p.features.forEach(function (f) { fl.appendChild(el('li', null, f)); });
+      feat.appendChild(fl);
+      info.appendChild(feat);
+    }
+    gridWrap.appendChild(info);
+    contentEl.appendChild(gridWrap);
+
+    // --- map ---
+    if (p.latitude != null && p.longitude != null) {
+      var mapWrap = el('div', 'detail-map');
+      var iframe = document.createElement('iframe');
+      iframe.loading = 'lazy'; iframe.title = 'Ubicación de la propiedad';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.src = 'https://www.google.com/maps?q=' + p.latitude + ',' + p.longitude + '&z=16&hl=es&output=embed';
+      mapWrap.appendChild(iframe);
+      contentEl.appendChild(mapWrap);
+    }
+  }
 })();
