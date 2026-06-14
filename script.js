@@ -404,10 +404,11 @@ function plMapType(label) {
   }
 })();
 
-/* ====== Contáctenos — scroll-driven 3D card reveal (index) ======
-   Vanilla port of the framer ContainerScroll effect: as the section scrolls into
-   view the card tilts flat (rotateX 16->0), settles its scale (1.03->1) and the
-   heading lifts slightly — the same useTransform mappings, no library. */
+/* ====== Contáctenos — scroll + cursor-driven 3D card reveal (index) ======
+   Vanilla port of the framer ContainerScroll effect, augmented: as the section
+   scrolls in the card unfolds (rotateX 26->0), grows (scale 0.9->1) and rises
+   (translateY 64->0); it also tilts toward the cursor (rotateX/rotateY parallax),
+   eased for smoothness. Same useTransform idea, no library. */
 (function () {
   var section = document.querySelector('.contact-section');
   if (!section) return;
@@ -421,26 +422,52 @@ function plMapType(label) {
   var mq = window.matchMedia('(max-width: 768px)');
   var mobile = mq.matches;
   function lerp(a, b, t) { return a + (b - a) * t; }
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
 
-  var ticking = false;
-  function update() {
-    ticking = false;
+  var p = 0;          // scroll progress 0..1
+  var px = 0, py = 0; // eased cursor offset -1..1
+  var tx = 0, ty = 0; // target cursor offset -1..1
+  var raf = 0;
+
+  function render() {
+    raf = 0;
+    px += (tx - px) * 0.12; // ease the cursor for buttery parallax
+    py += (ty - py) * 0.12;
+
+    var rotX = lerp(26, 0, p) + (-py * 7); // scroll unfold + cursor tilt
+    var rotY = px * 10;
+    var scale = lerp(mobile ? 0.88 : 0.9, 1, p);
+    var lift = lerp(64, 0, p);             // card rises into place
+    card.style.transform =
+      'perspective(900px) translateY(' + lift.toFixed(1) + 'px) rotateX(' + rotX.toFixed(2) +
+      'deg) rotateY(' + rotY.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
+    if (head) {
+      head.style.transform =
+        'translateY(' + lerp(34, -18, p).toFixed(1) + 'px) translateX(' + (px * 5).toFixed(1) + 'px)';
+    }
+    // keep animating until the cursor easing settles
+    if (Math.abs(tx - px) > 0.001 || Math.abs(ty - py) > 0.001) schedule();
+  }
+  function schedule() { if (!raf) raf = window.requestAnimationFrame(render); }
+
+  function onScroll() {
     var vh = window.innerHeight || document.documentElement.clientHeight;
     var top = section.getBoundingClientRect().top;
     // p: 0 when the section top sits at the viewport bottom, 1 once it's near the top.
-    var p = (vh - top) / (vh - vh * 0.15);
-    p = p < 0 ? 0 : p > 1 ? 1 : p;
-
-    var rotate = lerp(16, 0, p);
-    var scale = lerp(mobile ? 0.97 : 1.03, 1, p);
-    card.style.transform = 'perspective(1000px) rotateX(' + rotate.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
-    if (head) head.style.transform = 'translateY(' + lerp(0, -26, p).toFixed(1) + 'px)';
+    p = clamp((vh - top) / (vh - vh * 0.15), 0, 1);
+    schedule();
   }
-  function onScroll() {
-    if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+  function onMove(e) {
+    var r = card.getBoundingClientRect();
+    tx = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1);
+    ty = clamp((e.clientY - (r.top + r.height / 2)) / (r.height / 2), -1, 1);
+    schedule();
   }
+  function onLeave() { tx = 0; ty = 0; schedule(); }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', function () { mobile = mq.matches; update(); });
-  update();
+  section.addEventListener('mousemove', onMove);
+  section.addEventListener('mouseleave', onLeave);
+  window.addEventListener('resize', function () { mobile = mq.matches; onScroll(); });
+  onScroll();
 })();
