@@ -38,30 +38,39 @@
 
 <!-- HEADER / NAV -->
 <header class="site-header">
-  <div class="container header-inner">
-    <a href="index.html" class="logo">SPEIS</a>
-    <nav class="main-nav">
-      <a href="index.html">Inicio</a>
-      <a href="propiedades.html" class="active">Propiedades</a>
-      <a href="index.html#contacto">Contacto</a>
-      <div class="nav-dropdown" id="navDropdown">
-        <button class="nav-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false">
-          Secciones
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <div class="nav-dropdown-menu" role="menu">
-          <a href="propiedades.html">Propiedades</a>
-          <a href="index.html#contacto">Contacto</a>
-          <a href="index.html#conozcanos">Conózcanos</a>
-          <a href="index.html#proyectos-actuales">Proyectos actuales</a>
-          <a href="index.html#equipo">Equipo</a>
-          <a href="index.html#proyectos-proximos">Proyectos próximos</a>
-          <a href="index.html#testimonios">Testimonios</a>
-          <a href="index.html#galeria">Galería</a>
-        </div>
+  <nav class="pill-nav" aria-label="Navegación principal">
+    <a href="index.html" class="pill-brand">SPEIS</a>
+    <span class="pill-sep" aria-hidden="true"></span>
+    <a href="index.html" class="pill-tab" aria-label="Inicio">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+      <span class="pill-label">Inicio</span>
+    </a>
+    <a href="propiedades.html" class="pill-tab is-active" aria-label="Propiedades" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 22h20"/><path d="M4 22V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16"/><path d="M14 22V11a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v11"/><path d="M8 8h2M8 12h2M8 16h2"/></svg>
+      <span class="pill-label">Propiedades</span>
+    </a>
+    <a href="index.html#contacto" class="pill-tab" aria-label="Contacto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      <span class="pill-label">Contacto</span>
+    </a>
+    <span class="pill-sep" aria-hidden="true"></span>
+    <div class="nav-dropdown" id="navDropdown">
+      <button class="nav-dropdown-btn pill-tab" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Secciones">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+        <span class="pill-label">Secciones</span>
+      </button>
+      <div class="nav-dropdown-menu" role="menu">
+        <a href="propiedades.html">Propiedades</a>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="index.html#conozcanos">Conózcanos</a>
+        <a href="index.html#proyectos-actuales">Proyectos actuales</a>
+        <a href="index.html#equipo">Equipo</a>
+        <a href="index.html#proyectos-proximos">Proyectos próximos</a>
+        <a href="index.html#testimonios">Testimonios</a>
+        <a href="index.html#galeria">Galería</a>
       </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </header>
 
 <!-- RESULTADOS DE BÚSQUEDA -->

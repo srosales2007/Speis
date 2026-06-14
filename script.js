@@ -78,6 +78,25 @@ document.querySelectorAll('[data-carousel]').forEach(function (c) {
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 })();
 
+/* ====== Hero rotating word (index): cycles SPEIS ⇄ AQUÍ — vanilla animated-hero ====== */
+(function () {
+  var wrap = document.querySelector('.rotate-word');
+  if (!wrap) return;
+  var items = wrap.querySelectorAll('.rw-item');
+  if (items.length < 2) return;
+  var active = 0;
+  function apply() {
+    items.forEach(function (el, i) {
+      el.classList.remove('is-active', 'is-up', 'is-down');
+      el.classList.add(i === active ? 'is-active' : (active > i ? 'is-up' : 'is-down'));
+    });
+  }
+  apply();
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return; // show the first word statically
+  setInterval(function () { active = (active + 1) % items.length; apply(); }, 2200);
+})();
+
 /* ====== Testimonial slider (index): dots switch between real testimonials ====== */
 (function () {
   var slides = document.querySelectorAll('.testi-slide');
@@ -461,9 +480,13 @@ function plMapType(label) {
     var r = card.getBoundingClientRect();
     tx = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1);
     ty = clamp((e.clientY - (r.top + r.height / 2)) / (r.height / 2), -1, 1);
+    // spotlight-card border glow: place the gold light at the cursor (card-local %)
+    card.style.setProperty('--mx', (clamp((e.clientX - r.left) / r.width, 0, 1) * 100).toFixed(1) + '%');
+    card.style.setProperty('--my', (clamp((e.clientY - r.top) / r.height, 0, 1) * 100).toFixed(1) + '%');
+    card.classList.add('is-glowing');
     schedule();
   }
-  function onLeave() { tx = 0; ty = 0; schedule(); }
+  function onLeave() { tx = 0; ty = 0; card.classList.remove('is-glowing'); schedule(); }
 
   window.addEventListener('scroll', onScroll, { passive: true });
   section.addEventListener('mousemove', onMove);
