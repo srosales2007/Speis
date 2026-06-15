@@ -77,7 +77,7 @@ ul{list-style:none}
 .rw-item.is-down{transform:translateY(118%);opacity:0}
 @media (prefers-reduced-motion:reduce){.rw-item{transition:none}}
 
-.search-bar{margin:34px auto 0;max-width:960px;background:rgba(255,255,255,.96);border-radius:18px;padding:14px;display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;box-shadow:0 18px 50px rgba(0,0,0,.35);backdrop-filter:blur(6px)}
+.search-bar{position:relative;z-index:20;margin:34px auto 0;max-width:960px;background:rgba(255,255,255,.96);border-radius:18px;padding:14px;display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;box-shadow:0 18px 50px rgba(0,0,0,.35);backdrop-filter:blur(6px)} /* z-index: keep open dropdowns above the stats below */
 .search-field{position:relative;text-align:left;background:#fff;border-radius:12px;padding:8px 14px;border:1px solid #eee}
 .search-field label{display:block;font-size:.7rem;color:#888;font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
 .search-field input,.search-field select{width:100%;border:0;background:transparent;font:600 .9rem var(--font-body);color:var(--text-dark);outline:none;padding:2px 0;cursor:pointer}
@@ -201,7 +201,7 @@ ul{list-style:none}
 .results-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}
 .back-btn{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:9px 18px;font-size:.82rem;cursor:pointer;transition:var(--transition);font-family:var(--font-body);display:inline-flex;align-items:center;gap:6px}
 .back-btn:hover{border-color:var(--gold);color:var(--gold)}
-.results-search{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;margin-bottom:22px;backdrop-filter:blur(4px)}
+.results-search{position:relative;z-index:20;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;margin-bottom:22px;backdrop-filter:blur(4px)} /* z-index: keep open dropdowns above the toolbar/grid below */
 .results-search .search-field{background:rgba(255,255,255,.92);border:1px solid transparent}
 .results-search .search-submit{padding:0 22px;font-size:.86rem}
 .results-toolbar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:24px}
