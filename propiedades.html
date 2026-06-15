@@ -12,15 +12,6 @@
 </head>
 <body>
 
-<!-- Liquid-glass distortion filter (shared, subtle) -->
-<svg class="glass-defs" aria-hidden="true" width="0" height="0" style="position:absolute">
-  <filter id="glass-distortion" x="-20%" y="-20%" width="140%" height="140%">
-    <feTurbulence type="turbulence" baseFrequency="0.012" numOctaves="2" seed="7" result="noise"/>
-    <feGaussianBlur in="noise" stdDeviation="1.1" result="blurred"/>
-    <feDisplacementMap in="SourceGraphic" in2="blurred" scale="16" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-</svg>
-
 <!-- TOP CONTACT BAR -->
 <div class="topbar">
   <div class="container topbar-inner">
@@ -138,9 +129,14 @@
     </div>
 
     <!-- Estados de carga / error (manejados por script.js) -->
-    <div class="grid-status" id="gridLoading">
-      <div class="spinner" aria-hidden="true"></div>
-      <p>Cargando propiedades…</p>
+    <div class="grid-skeleton" id="gridLoading" aria-busy="true">
+      <span class="sr-only">Cargando propiedades…</span>
+      <div class="sk-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-body"><div class="sk-line lg"></div><div class="sk-line sm"></div><div class="sk-foot"><span class="sk-pill"></span><span class="sk-btn"></span></div></div></div>
+      <div class="sk-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-body"><div class="sk-line lg"></div><div class="sk-line sm"></div><div class="sk-foot"><span class="sk-pill"></span><span class="sk-btn"></span></div></div></div>
+      <div class="sk-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-body"><div class="sk-line lg"></div><div class="sk-line sm"></div><div class="sk-foot"><span class="sk-pill"></span><span class="sk-btn"></span></div></div></div>
+      <div class="sk-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-body"><div class="sk-line lg"></div><div class="sk-line sm"></div><div class="sk-foot"><span class="sk-pill"></span><span class="sk-btn"></span></div></div></div>
+      <div class="sk-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-body"><div class="sk-line lg"></div><div class="sk-line sm"></div><div class="sk-foot"><span class="sk-pill"></span><span class="sk-btn"></span></div></div></div>
+      <div class="sk-card" aria-hidden="true"><div class="sk-img"></div><div class="sk-body"><div class="sk-line lg"></div><div class="sk-line sm"></div><div class="sk-foot"><span class="sk-pill"></span><span class="sk-btn"></span></div></div></div>
     </div>
     <div class="grid-status" id="gridError" hidden>
       <p>No pudimos cargar las propiedades en este momento.</p>

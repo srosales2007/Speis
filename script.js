@@ -78,6 +78,113 @@ document.querySelectorAll('[data-carousel]').forEach(function (c) {
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 })();
 
+/* ====== Custom search dropdowns (shadcn dropdown-menu port; native <select> stays as value store) ====== */
+(function () {
+  var selects = document.querySelectorAll('.search-bar select, .results-search select');
+  if (!selects.length) return;
+  [].forEach.call(selects, enhance);
+
+  function enhance(select) {
+    if (select.dataset.uiEnhanced) return; // idempotent
+    select.dataset.uiEnhanced = '1';
+    var field = select.closest('.search-field') || select.parentNode;
+    var label = field.querySelector('label');
+    var labelId = select.id + '-lbl', valueId = select.id + '-val';
+    if (label && !label.id) label.id = labelId;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'ui-select';
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ui-select-btn';
+    btn.setAttribute('aria-haspopup', 'listbox');
+    btn.setAttribute('aria-expanded', 'false');
+    if (label) btn.setAttribute('aria-labelledby', (label.id || labelId) + ' ' + valueId);
+
+    var value = document.createElement('span');
+    value.className = 'ui-select-value'; value.id = valueId;
+    var chev = document.createElement('span');
+    chev.className = 'ui-select-chev';
+    chev.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg>';
+    btn.appendChild(value); btn.appendChild(chev);
+
+    var menu = document.createElement('ul');
+    menu.className = 'ui-select-menu';
+    menu.setAttribute('role', 'listbox');
+    menu.hidden = true;
+
+    var items = [].map.call(select.options, function (opt, i) {
+      var li = document.createElement('li');
+      li.className = 'ui-select-option';
+      li.setAttribute('role', 'option');
+      li.textContent = opt.textContent;
+      li.addEventListener('click', function () { choose(i); });
+      menu.appendChild(li);
+      return li;
+    });
+
+    var focusI = -1;
+    function syncFromSelect() {
+      var si = select.selectedIndex;
+      value.textContent = si >= 0 ? select.options[si].textContent : '';
+      items.forEach(function (li, j) {
+        var on = j === si;
+        li.classList.toggle('is-selected', on);
+        li.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+    function choose(i) {
+      select.selectedIndex = i;
+      syncFromSelect();
+      close();
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      btn.focus();
+    }
+    function open() {
+      menu.hidden = false; wrap.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      field.style.zIndex = '60';
+      focusI = select.selectedIndex;
+      paintFocus();
+      document.addEventListener('click', onDoc, true);
+    }
+    function close() {
+      menu.hidden = true; wrap.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      field.style.zIndex = '';
+      focusI = -1; paintFocus();
+      document.removeEventListener('click', onDoc, true);
+    }
+    function onDoc(e) { if (!wrap.contains(e.target)) close(); }
+    function paintFocus() { items.forEach(function (li, j) { li.classList.toggle('focused', j === focusI); }); }
+    function moveFocus(d) {
+      focusI = Math.max(0, Math.min(items.length - 1, (focusI < 0 ? select.selectedIndex : focusI) + d));
+      paintFocus();
+      items[focusI].scrollIntoView({ block: 'nearest' });
+    }
+
+    btn.addEventListener('click', function (e) { e.stopPropagation(); menu.hidden ? open() : close(); });
+    btn.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (menu.hidden) open(); else moveFocus(e.key === 'ArrowDown' ? 1 : -1); }
+      else if (e.key === 'Enter' || e.key === ' ') {
+        if (menu.hidden) { e.preventDefault(); open(); }
+        else if (focusI >= 0) { e.preventDefault(); choose(focusI); }
+      } else if (e.key === 'Escape') { if (!menu.hidden) { e.stopPropagation(); close(); } }
+    });
+
+    // native value changed elsewhere (e.g. URL → filters) keeps the trigger in sync
+    select.addEventListener('change', syncFromSelect);
+
+    select.classList.add('ui-select-native');
+    select.setAttribute('tabindex', '-1');
+    select.setAttribute('aria-hidden', 'true');
+    wrap.appendChild(btn); wrap.appendChild(menu);
+    field.appendChild(wrap);
+    syncFromSelect();
+  }
+})();
+
 /* ====== Hero rotating word (index): cycles SPEIS ⇄ AQUÍ — vanilla animated-hero ====== */
 (function () {
   var wrap = document.querySelector('.rotate-word');
@@ -128,18 +235,90 @@ document.querySelectorAll('[data-carousel]').forEach(function (c) {
   update();
 })();
 
-/* ====== Testimonial slider (index): dots switch between real testimonials ====== */
+/* ====== Testimonials — draggable stacked-card carousel (index) ====== */
 (function () {
-  var slides = document.querySelectorAll('.testi-slide');
-  var dotsWrap = document.querySelector('.dots');
-  if (!slides.length || !dotsWrap) return;
-  var dots = dotsWrap.querySelectorAll('.dot');
-  function show(i) {
-    slides.forEach(function (s, j) { s.classList.toggle('active', j === i); });
-    dots.forEach(function (d, j) { d.classList.toggle('active', j === i); });
+  var root = document.getElementById('testiCarousel');
+  if (!root || root.dataset.init) return;
+  root.dataset.init = '1';
+  var stack = root.querySelector('[data-testi-stack]');
+  var cards = Array.prototype.slice.call(stack.querySelectorAll('.tcard'));
+  var n = cards.length;
+  if (!n) return;
+  var dotsWrap = root.querySelector('[data-testi-dots]');
+  var index = 0;
+
+  var dots = [];
+  if (dotsWrap) {
+    cards.forEach(function (_, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'testi-dot'; b.setAttribute('aria-label', 'Testimonio ' + (i + 1));
+      b.addEventListener('click', function () { index = i; render(); });
+      dotsWrap.appendChild(b); dots.push(b);
+    });
   }
-  dots.forEach(function (d, i) { d.addEventListener('click', function () { show(i); }); });
-  show(0);
+
+  function relPos(i) { return (i - index + n) % n; } // 0 = top of the stack
+
+  function render() {
+    cards.forEach(function (card, i) {
+      var p = relPos(i);
+      var top = p === 0;
+      card.classList.toggle('dragging', false);
+      card.setAttribute('aria-hidden', top ? 'false' : 'true');
+      card.style.pointerEvents = top ? 'auto' : 'none';
+      if (p > 2) {
+        card.style.opacity = '0'; card.style.zIndex = '0';
+        card.style.transform = 'translateY(24px) scale(.92)';
+        return;
+      }
+      card.style.zIndex = String(3 - p);
+      card.style.opacity = top ? '1' : p === 1 ? '0.6' : '0.3';
+      var y = top ? 0 : p === 1 ? 8 : 16;
+      var rot = top ? 0 : p === 1 ? -2 : -4;
+      var scale = top ? 1 : 0.95;
+      card.style.transform = 'translateY(' + y + 'px) rotate(' + rot + 'deg) scale(' + scale + ')';
+    });
+    dots.forEach(function (d, i) { d.classList.toggle('active', i === index); });
+  }
+
+  function advance(dir) { index = (index + dir + n) % n; render(); }
+
+  // drag the top card to dismiss
+  var startX = 0, dx = 0, dragging = false, topCard = null;
+  function onDown(e) {
+    var card = cards[index];
+    if (!card.contains(e.target)) return;
+    dragging = true; startX = e.clientX; dx = 0; topCard = card;
+    topCard.classList.add('dragging');
+    if (topCard.setPointerCapture) { try { topCard.setPointerCapture(e.pointerId); } catch (err) {} }
+  }
+  function onMove(e) {
+    if (!dragging) return;
+    dx = e.clientX - startX;
+    topCard.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx / 22) + 'deg)';
+  }
+  function onUp() {
+    if (!dragging) return;
+    dragging = false;
+    topCard.classList.remove('dragging');
+    if (Math.abs(dx) > 100) {
+      topCard.style.transform = 'translateX(' + (dx > 0 ? 520 : -520) + 'px) rotate(' + (dx > 0 ? 22 : -22) + 'deg)';
+      topCard.style.opacity = '0';
+      setTimeout(function () { advance(1); }, 200);
+    } else {
+      render(); // snap back
+    }
+    dx = 0;
+  }
+  stack.addEventListener('pointerdown', onDown);
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup', onUp);
+
+  var prev = root.querySelector('[data-testi-prev]'), next = root.querySelector('[data-testi-next]');
+  if (prev) prev.addEventListener('click', function () { advance(-1); });
+  if (next) next.addEventListener('click', function () { advance(1); });
+
+  render();
 })();
 
 /* ====== Shared fetch helper: JSON + one retry on failure ====== */
@@ -309,6 +488,7 @@ function plMapType(label) {
       var sel = document.getElementById(pair[0]);
       var want = params.get(pair[1]) || '';
       if ([].some.call(sel.options, function (o) { return o.value === want; })) sel.value = want;
+      sel.dispatchEvent(new Event('change', { bubbles: true })); // keep the custom dropdown trigger in sync
     });
   }
 
