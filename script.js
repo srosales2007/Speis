@@ -97,6 +97,37 @@ document.querySelectorAll('[data-carousel]').forEach(function (c) {
   setInterval(function () { active = (active + 1) % items.length; apply(); }, 2200);
 })();
 
+/* ====== Project carousels — 3D scroll-reveal tilt (vanilla ContainerScroll port) ====== */
+(function () {
+  var els = document.querySelectorAll('.scroll-tilt');
+  if (!els.length) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var mq = window.matchMedia('(max-width: 768px)');
+  var mobile = mq.matches;
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+  var raf = 0;
+  function update() {
+    raf = 0;
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    els.forEach(function (el) {
+      var top = el.getBoundingClientRect().top;
+      // p: 0 as the carousel enters from the viewport bottom, 1 once it's well in view
+      var p = clamp((vh - top) / (vh - vh * 0.2), 0, 1);
+      var rotX = lerp(mobile ? 13 : 19, 0, p);
+      var scale = lerp(mobile ? 0.93 : 0.97, 1, p);
+      el.style.transform = 'perspective(1200px) rotateX(' + rotX.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
+    });
+  }
+  function onScroll() { if (!raf) raf = window.requestAnimationFrame(update); }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { mobile = mq.matches; update(); });
+  update();
+})();
+
 /* ====== Testimonial slider (index): dots switch between real testimonials ====== */
 (function () {
   var slides = document.querySelectorAll('.testi-slide');

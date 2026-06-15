@@ -32,7 +32,18 @@ ul{list-style:none}
 
 .site-header{background:transparent;padding:18px 14px;position:sticky;top:0;z-index:50;display:flex;justify-content:center;pointer-events:none}
 /* Floating pill nav — expandable tabs (vanilla port). Icons collapse; active/hover expands the label. */
-.pill-nav{pointer-events:auto;display:inline-flex;align-items:center;gap:4px;max-width:100%;background:rgba(26,26,26,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.09);border-radius:999px;padding:6px 8px;box-shadow:0 14px 36px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.06)}
+.pill-nav{pointer-events:auto;position:relative;isolation:isolate;display:inline-flex;align-items:center;gap:4px;max-width:100%;background:transparent;border:1px solid rgba(255,255,255,.10);border-radius:999px;padding:6px 8px;box-shadow:0 14px 36px rgba(0,0,0,.46)}
+.pill-nav::before{ /* liquid glass: frosted, tinted backdrop (dark + subtle, "not too clear") */
+  content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;
+  background:rgba(20,20,20,.5);
+  backdrop-filter:blur(9px) saturate(1.25);-webkit-backdrop-filter:blur(9px) saturate(1.25);
+}
+.pill-nav::after{ /* distorted specular sheen on top — the "liquid" wobble, kept faint */
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.07),transparent 42%);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,.24),inset -1px -1px 2px rgba(0,0,0,.3),inset 0 0 8px rgba(255,255,255,.05);
+  filter:url(#glass-distortion);
+}
 .pill-brand{font-family:'Cormorant Garamond',serif;font-size:1.4rem;letter-spacing:.16em;color:var(--gold);font-weight:600;line-height:1;padding:0 10px 0 8px}
 .pill-sep{width:1.2px;height:22px;background:rgba(255,255,255,.14);flex-shrink:0}
 .pill-tab{display:inline-flex;align-items:center;gap:0;color:#cfcfcf;background:transparent;border:0;cursor:pointer;border-radius:999px;padding:9px 11px;font-size:.85rem;font-weight:500;letter-spacing:.01em;font-family:var(--font-body);white-space:nowrap;transition:gap .4s cubic-bezier(.22,1.4,.42,1),padding .4s cubic-bezier(.22,1.4,.42,1),background .25s ease,color .25s ease}
@@ -206,6 +217,9 @@ ul{list-style:none}
 .chip button{background:transparent;border:0;color:var(--gold);cursor:pointer;font-size:1rem;line-height:1;padding:0;display:inline-flex}
 
 .carousel{position:relative}
+/* 3D scroll-reveal tilt for the project carousels (vanilla ContainerScroll port) */
+.scroll-tilt{transform:perspective(1200px) rotateX(0deg) scale(1);transform-origin:center 78%;will-change:transform}
+@media (prefers-reduced-motion:reduce){.scroll-tilt{transform:none !important}}
 .carousel-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:6px 0 22px;scrollbar-width:none}
 .carousel-track::-webkit-scrollbar{display:none}
 .carousel-btn{position:absolute;top:42%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;box-shadow:0 4px 12px rgba(0,0,0,.25);transition:var(--transition)}
@@ -294,13 +308,20 @@ ul{list-style:none}
   opacity:0;transition:opacity .35s ease;
 }
 .scroll-card.is-glowing::after{opacity:1}
-.scroll-card-inner{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.07);
+.scroll-card-inner{ /* subtle liquid-glass surface (simulated — backdrop blur can't sample past the 3D tilt) */
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08);
   border-radius:18px;
   padding:24px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),inset 0 0 0 1px rgba(255,255,255,.03);
 }
+.scroll-card-inner::before{ /* wavy glass sheen */
+  content:"";position:absolute;inset:-12%;pointer-events:none;z-index:0;
+  background:radial-gradient(58% 48% at 26% 2%,rgba(255,255,255,.11),transparent 70%);
+  filter:url(#glass-distortion);opacity:.7;
+}
+.scroll-card-inner > *{position:relative;z-index:1}
 .scroll-card .contact-form{margin-top:0}
 @media (max-width:768px){
   .contact-section{padding:74px 0}
