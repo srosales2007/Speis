@@ -225,6 +225,8 @@ ul{list-style:none}
 .scroll-tilt .card{transform:translateZ(0)}
 @media (prefers-reduced-motion:reduce){.scroll-tilt{transform:none !important}}
 
+/* Proyectos próximos — the "proximamente" PNG has transparent corners; match its #333 bg so the grey placeholder never shows through */
+#proyectos-proximos .card-img{background:#333}
 /* Proyectos actuales — image fills the card; the white info panel slides up on hover (carousel-card port) */
 #proyectos-actuales .card{height:300px}
 #proyectos-actuales .card-img{height:100%}
