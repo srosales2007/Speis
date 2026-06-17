@@ -63,7 +63,7 @@ ul{list-style:none}
 
 /* =================== HERO with SEARCH =================== */
 .hero{position:relative;min-height:560px;display:flex;align-items:center;color:#fff} /* overflow visible so search dropdowns aren't clipped */
-.hero-bg{position:absolute;inset:0;background:url('https://speis.cr/wp-content/uploads/2025/07/bannerHero.webp') center/cover no-repeat}
+.hero-bg{position:absolute;inset:0;background:url('/wp-content/uploads/2025/07/bannerHero.webp') center/cover no-repeat}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.55) 50%,rgba(0,0,0,.75) 100%)}
 .hero-inner{position:relative;z-index:2;padding:64px 28px;width:100%;text-align:center}
 .hero h1{font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.08;letter-spacing:-.01em;max-width:880px;margin:0 auto}
