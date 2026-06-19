@@ -137,6 +137,8 @@ const NAMED_ENTITIES = {
   nbsp: ' ', amp: '&', quot: '"', apos: "'", lt: '<', gt: '>',
   iexcl: '¡', iquest: '¿', laquo: '«', raquo: '»', hellip: '…',
   ndash: '–', mdash: '—', deg: '°', ordm: 'º', ordf: 'ª', middot: '·', euro: '€',
+  sup1: '¹', sup2: '²', sup3: '³', frac12: '½', frac14: '¼', frac34: '¾',
+  times: '×', divide: '÷', plusmn: '±',
   aacute: 'á', eacute: 'é', iacute: 'í', oacute: 'ó', uacute: 'ú',
   Aacute: 'Á', Eacute: 'É', Iacute: 'Í', Oacute: 'Ó', Uacute: 'Ú',
   agrave: 'à', egrave: 'è', igrave: 'ì', ograve: 'ò', ugrave: 'ù',
