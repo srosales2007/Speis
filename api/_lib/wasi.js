@@ -20,7 +20,8 @@
  * @property {string} [zone]
  * @property {string} address
  * @property {string} type              Property-type name (from /property-type/all map)
- * @property {string} image             main image URL ("" if none)
+ * @property {string} image             main image URL, large ("" if none)
+ * @property {string} thumb             main image URL, small (listing cards)
  * @property {Array<{full:string,thumb:string}>} gallery
  * @property {string[]} features
  * @property {string} description
@@ -127,17 +128,47 @@ function cleanTypeLabel(s) {
 }
 
 /**
- * Decode HTML entities found in Wasi *_label fields (e.g. "&#8353;" -> "₡")
- * so the front-end can render them as plain text via textContent.
+ * Decode HTML entities found in Wasi fields — numeric (e.g. "&#8353;" -> "₡")
+ * plus the named Latin entities WordPress emits in titles/descriptions
+ * (e.g. "&uacute;" -> "ú", "&ntilde;" -> "ñ", "&iexcl;" -> "¡").
+ * Unknown named entities are left intact.
  */
+const NAMED_ENTITIES = {
+  nbsp: ' ', amp: '&', quot: '"', apos: "'", lt: '<', gt: '>',
+  iexcl: '¡', iquest: '¿', laquo: '«', raquo: '»', hellip: '…',
+  ndash: '–', mdash: '—', deg: '°', ordm: 'º', ordf: 'ª', middot: '·', euro: '€',
+  aacute: 'á', eacute: 'é', iacute: 'í', oacute: 'ó', uacute: 'ú',
+  Aacute: 'Á', Eacute: 'É', Iacute: 'Í', Oacute: 'Ó', Uacute: 'Ú',
+  agrave: 'à', egrave: 'è', igrave: 'ì', ograve: 'ò', ugrave: 'ù',
+  ntilde: 'ñ', Ntilde: 'Ñ', uuml: 'ü', Uuml: 'Ü', ccedil: 'ç', Ccedil: 'Ç',
+};
 function decodeEntities(s) {
   if (!s) return '';
   return String(s)
     .replace(/&#(\d+);/g, (_, n) => { try { return String.fromCodePoint(Number(n)); } catch { return _; } })
     .replace(/&#x([0-9a-f]+);/gi, (_, n) => { try { return String.fromCodePoint(parseInt(n, 16)); } catch { return _; } })
-    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
-    .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&([a-zA-Z][a-zA-Z0-9]*);/g, (m, name) =>
+      Object.prototype.hasOwnProperty.call(NAMED_ENTITIES, name) ? NAMED_ENTITIES[name] : m)
+    .trim();
+}
+
+/**
+ * Wasi property descriptions arrive as HTML (with entities). Turn them into
+ * clean plain-text paragraphs separated by a blank line — safe to render via
+ * textContent. The front-end splits on the blank line into <p> blocks.
+ */
+function cleanDescription(raw) {
+  if (!raw) return '';
+  let s = decodeEntities(String(raw)); // accents/ñ/¡ + any escaped tags -> real chars
+  s = s
+    .replace(/<\s*\/\s*(p|div|li|ul|ol|h[1-6]|tr|table)\s*>/gi, '\n\n') // block ends -> paragraph break
+    .replace(/<\s*br\s*\/?\s*>/gi, '\n')                                // line breaks
+    .replace(/<[^>]*>/g, '');                                           // drop any remaining tags
+  return s
+    .replace(/\r/g, '')
+    .replace(/[ \t\u00A0]+/g, ' ')  // collapse runs of spaces / tabs / nbsp
+    .replace(/ *\n */g, '\n')       // trim around newlines
+    .replace(/\n{3,}/g, '\n\n')     // at most one blank line between paragraphs
     .trim();
 }
 
@@ -163,15 +194,36 @@ function extractFeatures(p) {
   return Array.from(new Set(out));
 }
 
+/**
+ * Build the per-property photo list: main image first, then every gallery
+ * image, de-duplicated by URL. Each entry exposes a `thumb` (small) and a
+ * `full` (large) so the listing can stay light and the detail page can show
+ * full resolution. Scoped to this property only — no cross-property mixing.
+ */
 function buildGallery(p) {
-  const g = Array.isArray(p.galleries) ? p.galleries : [];
-  const list = g.map((it) => ({
-    full: it.url_big || it.url || it.url_original || it.url_thumb || '',
-    thumb: it.url_thumb || it.url || it.url_big || '',
-  })).filter((x) => /^https?:/.test(x.full));
-  const main = p.main_image && p.main_image.url;
-  if (list.length === 0 && /^https?:/.test(main || '')) list.push({ full: main, thumb: main });
-  return list;
+  const raw = Array.isArray(p.galleries) ? p.galleries
+    : Array.isArray(p.images) ? p.images
+    : Array.isArray(p.gallery) ? p.gallery : [];
+  const items = [];
+  const main = p.main_image;
+  if (main && /^https?:/.test(main.url_big || main.url || main.url_thumb || '')) {
+    items.push({
+      full: main.url_big || main.url || main.url_original || main.url_thumb,
+      thumb: main.url_thumb || main.url || main.url_big,
+    });
+  }
+  for (const it of raw) {
+    const full = it.url_big || it.url || it.url_original || it.url_thumb || '';
+    if (!/^https?:/.test(full)) continue;
+    items.push({ full, thumb: it.url_thumb || it.url || it.url_big || full });
+  }
+  const seen = new Set();
+  return items.filter((it) => {
+    const key = String(it.full).split('?')[0]; // ignore cache-busting query strings
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 // ---- property-type map (FIX 1): id_property_type (number) -> name ----
@@ -222,9 +274,11 @@ function normalizeProperty(p, typeMap) {
     address: decodeEntities(p.address || ''),
     type: typeName,
     image: (p.main_image && p.main_image.url) || (gallery[0] && gallery[0].full) || '',
+    thumb: (p.main_image && (p.main_image.url_thumb || p.main_image.url))
+      || (gallery[0] && gallery[0].thumb) || (gallery[0] && gallery[0].full) || '',
     gallery,
     features: extractFeatures(p).map(decodeEntities),
-    description: decodeEntities(p.observations || p.description || p.comment || ''),
+    description: cleanDescription(p.observations || p.description || p.comment || ''),
     latitude: num(p.latitude), longitude: num(p.longitude),
     availabilityLabel: decodeEntities(p.availability_label || ''), currency: p.iso_currency || '',
   };

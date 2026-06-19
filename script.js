@@ -355,12 +355,15 @@ function plMapType(label) {
   var loadingEl = document.getElementById('gridLoading');
   var errorEl = document.getElementById('gridError');
   var noResults = document.getElementById('noResults');
+  var loadMoreWrap = document.getElementById('loadMoreWrap');
+  var loadMoreBtn = document.getElementById('loadMore');
 
   function setState(s) { // 'loading' | 'error' | 'ready'
     if (loadingEl) loadingEl.hidden = s !== 'loading';
     if (errorEl) errorEl.hidden = s !== 'error';
     grid.hidden = s !== 'ready';
     if (noResults && s !== 'ready') noResults.classList.remove('show');
+    if (loadMoreWrap && s !== 'ready') loadMoreWrap.hidden = true;
   }
 
   function buildMeta(p) {
@@ -390,9 +393,10 @@ function plMapType(label) {
     var imgWrap = document.createElement('a');
     imgWrap.className = 'card-img';
     imgWrap.href = href;
-    if (p.image && /^https?:/.test(p.image)) {
+    var cardSrc = (p.thumb && /^https?:/.test(p.thumb)) ? p.thumb : p.image; // light thumb for the listing
+    if (cardSrc && /^https?:/.test(cardSrc)) {
       var img = document.createElement('img');
-      img.src = p.image; img.alt = p.title || 'Propiedad'; img.loading = 'lazy';
+      img.src = cardSrc; img.alt = p.title || 'Propiedad'; img.loading = 'lazy'; img.decoding = 'async';
       imgWrap.appendChild(img);
     } else {
       imgWrap.classList.add('placeholder-img');
@@ -422,32 +426,51 @@ function plMapType(label) {
     return card;
   }
 
-  function render(properties) {
-    var frag = document.createDocumentFragment();
-    properties.forEach(function (p) { frag.appendChild(buildCard(p)); });
-    grid.innerHTML = '';
-    grid.appendChild(frag);
+  /* ---- pagination state: filter over the data, render in blocks of PAGE_SIZE ---- */
+  var PAGE_SIZE = 9;
+  var allProperties = [];   // every property, with precomputed search keys (_title/_loc/_type)
+  var filtered = [];        // subset matching the current filters
+  var shown = 0;            // how many of `filtered` are currently in the DOM
+
+  function currentFilter() {
+    return {
+      kw: plNormalize(document.getElementById('f_kw').value.trim()),
+      loc: plNormalize(document.getElementById('f_loc').value),
+      type: plNormalize(document.getElementById('f_type').value),
+    };
+  }
+  function matchesFilter(p, f) {
+    var matchKw = !f.kw || p._title.indexOf(f.kw) >= 0 || p._loc.indexOf(f.kw) >= 0 || p._type.indexOf(f.kw) >= 0;
+    var matchLoc = !f.loc || p._loc.indexOf(f.loc) >= 0;
+    var matchType = !f.type || p._type === f.type;
+    return matchKw && matchLoc && matchType;
   }
 
-  /* ---- filters: identical UX, now over the live-rendered cards ---- */
+  // Append the next block of `filtered`. When reset, recompute the filtered set
+  // from the data and restart the listing from the first block.
+  function renderMore(reset) {
+    if (reset) {
+      var f = currentFilter();
+      filtered = allProperties.filter(function (p) { return matchesFilter(p, f); });
+      shown = 0;
+      grid.innerHTML = '';
+    }
+    var next = filtered.slice(shown, shown + PAGE_SIZE);
+    var frag = document.createDocumentFragment();
+    next.forEach(function (p) { frag.appendChild(buildCard(p)); });
+    grid.appendChild(frag);
+    shown += next.length;
+
+    document.getElementById('resultsCount').textContent = filtered.length;
+    if (noResults) noResults.classList.toggle('show', filtered.length === 0);
+    if (loadMoreWrap) loadMoreWrap.hidden = shown >= filtered.length; // hide when nothing left
+  }
+
+  /* ---- filters: same UX, now data-driven + paginated ---- */
   function applyFilters() {
-    var kw = plNormalize(document.getElementById('f_kw').value.trim());
-    var loc = plNormalize(document.getElementById('f_loc').value);
-    var type = plNormalize(document.getElementById('f_type').value);
-    var cards = grid.querySelectorAll('[data-property]');
-    var visible = 0;
-    cards.forEach(function (card) {
-      var matchKw = !kw || plNormalize(card.dataset.title).includes(kw) || plNormalize(card.dataset.location).includes(kw) || plNormalize(card.dataset.type).includes(kw);
-      var matchLoc = !loc || plNormalize(card.dataset.location).includes(loc);
-      var matchType = !type || plNormalize(card.dataset.type) === type;
-      var show = matchKw && matchLoc && matchType;
-      card.classList.toggle('is-hidden', !show);
-      if (show) visible++;
-    });
-    document.getElementById('resultsCount').textContent = visible;
-    if (noResults) noResults.classList.toggle('show', visible === 0);
     renderActiveFilters();
     syncUrl();
+    renderMore(true); // re-filter and restart from the first block
   }
 
   function renderActiveFilters() {
@@ -504,14 +527,21 @@ function plMapType(label) {
     applyFilters();
   });
 
+  if (loadMoreBtn) loadMoreBtn.addEventListener('click', function () { renderMore(false); });
+
   function load() {
     setState('loading');
     wasiFetchJson('/api/properties').then(function (data) {
       if (!data || data.status !== 'success' || !Array.isArray(data.properties)) throw new Error('bad payload');
-      render(data.properties);
+      allProperties = data.properties.map(function (p) {
+        p._title = plNormalize(p.title);
+        p._loc = plNormalize([p.region, p.city, p.zone, p.address].filter(Boolean).join(' '));
+        p._type = plMapType(p.type);
+        return p;
+      });
       setState('ready');
       readUrlIntoFilters();
-      applyFilters(); // also surfaces the empty state via #noResults
+      applyFilters(); // filters + renders the first block, surfaces the empty state
     }).catch(function () { setState('error'); });
   }
   var retry = document.getElementById('retryLoad');
@@ -607,7 +637,11 @@ function plMapType(label) {
     if (p.description) {
       var desc = el('div', 'detail-block');
       desc.appendChild(el('h3', null, 'Descripción'));
-      desc.appendChild(el('p', null, p.description));
+      // server returns clean text with paragraphs separated by a blank line
+      p.description.split(/\n{2,}/).forEach(function (para) {
+        var t = para.trim();
+        if (t) desc.appendChild(el('p', null, t));
+      });
       info.appendChild(desc);
     }
     if (p.features && p.features.length) {
