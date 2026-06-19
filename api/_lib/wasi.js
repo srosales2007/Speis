@@ -195,6 +195,30 @@ function extractFeatures(p) {
 }
 
 /**
+ * Wasi serves images through image.wasi.co — an AWS Serverless Image Handler
+ * whose resize box is base64-encoded in the path. Decode it, shrink the box to
+ * ~maxW (keeping aspect), re-encode → a lighter thumbnail derived from the same
+ * source, so listing cards download far fewer bytes. Returns the URL unchanged
+ * for anything that isn't a parseable image.wasi.co URL, or already smaller.
+ */
+function resizeWasiImage(url, maxW) {
+  if (typeof url !== 'string') return url || '';
+  const m = url.match(/^(https?:\/\/image\.wasi\.co\/)([A-Za-z0-9+/=]+)$/);
+  if (!m) return url;
+  try {
+    const cfg = JSON.parse(Buffer.from(m[2], 'base64').toString('utf8'));
+    const r = cfg && cfg.edits && cfg.edits.resize;
+    if (!r || !r.width || r.width <= maxW) return url; // already small enough
+    const scale = maxW / r.width;
+    r.width = Math.round(r.width * scale);
+    if (r.height) r.height = Math.round(r.height * scale);
+    return m[1] + Buffer.from(JSON.stringify(cfg)).toString('base64');
+  } catch {
+    return url;
+  }
+}
+
+/**
  * Build the per-property photo list. Wasi nests a property's photos inside
  * `galleries` (an array of gallery containers); each container holds its
  * images as numeric-keyed entries ("0","1",… — Wasi's list quirk), NOT as a
@@ -279,8 +303,9 @@ function normalizeProperty(p, typeMap) {
     address: decodeEntities(p.address || ''),
     type: typeName,
     image: (p.main_image && p.main_image.url) || (gallery[0] && gallery[0].full) || '',
-    thumb: (p.main_image && (p.main_image.url_thumb || p.main_image.url))
-      || (gallery[0] && gallery[0].thumb) || (gallery[0] && gallery[0].full) || '',
+    thumb: resizeWasiImage(
+      (p.main_image && (p.main_image.url_thumb || p.main_image.url))
+      || (gallery[0] && gallery[0].thumb) || (gallery[0] && gallery[0].full) || '', 400),
     gallery,
     features: extractFeatures(p).map(decodeEntities),
     description: cleanDescription(p.observations || p.description || p.comment || ''),
