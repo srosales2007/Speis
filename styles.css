@@ -214,7 +214,7 @@ ul{list-style:none}
 .no-results.show{display:block}
 .load-more-wrap{display:flex;justify-content:center;margin-top:30px}
 .load-more-wrap[hidden]{display:none}
-.load-more-wrap .btn{min-width:240px}
+.load-more-wrap .btn{min-width:240px;justify-content:center}
 .results-header .section-title{margin:6px 0 0}
 .active-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;min-height:0}
 .active-filters:empty{display:none}
