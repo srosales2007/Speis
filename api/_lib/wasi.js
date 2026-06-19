@@ -195,35 +195,40 @@ function extractFeatures(p) {
 }
 
 /**
- * Build the per-property photo list: main image first, then every gallery
- * image, de-duplicated by URL. Each entry exposes a `thumb` (small) and a
- * `full` (large) so the listing can stay light and the detail page can show
- * full resolution. Scoped to this property only — no cross-property mixing.
+ * Build the per-property photo list. Wasi nests a property's photos inside
+ * `galleries` (an array of gallery containers); each container holds its
+ * images as numeric-keyed entries ("0","1",… — Wasi's list quirk), NOT as a
+ * flat array of images. We flatten every gallery, order by `position`, and
+ * expose `thumb` (medium `url`) + `full` (large `url_big`). The main image is
+ * usually position 0, so it leads; de-dup drops any repeat. Wasi images have
+ * no `url_thumb` — `url` (~555px) is the lightest size. Scoped to this
+ * property only — no cross-property mixing.
  */
 function buildGallery(p) {
-  const raw = Array.isArray(p.galleries) ? p.galleries
-    : Array.isArray(p.images) ? p.images
-    : Array.isArray(p.gallery) ? p.gallery : [];
+  const galleries = Array.isArray(p.galleries) ? p.galleries
+    : (p.galleries && typeof p.galleries === 'object') ? [p.galleries] : [];
+  const images = [];
+  for (const gallery of galleries) {
+    for (const im of collectNumericEntries(gallery)) images.push(im);
+  }
+  images.sort((a, b) => (Number(a.position) || 0) - (Number(b.position) || 0));
+
   const items = [];
-  const main = p.main_image;
-  if (main && /^https?:/.test(main.url_big || main.url || main.url_thumb || '')) {
-    items.push({
-      full: main.url_big || main.url || main.url_original || main.url_thumb,
-      thumb: main.url_thumb || main.url || main.url_big,
-    });
-  }
-  for (const it of raw) {
-    const full = it.url_big || it.url || it.url_original || it.url_thumb || '';
-    if (!/^https?:/.test(full)) continue;
-    items.push({ full, thumb: it.url_thumb || it.url || it.url_big || full });
-  }
   const seen = new Set();
-  return items.filter((it) => {
-    const key = String(it.full).split('?')[0]; // ignore cache-busting query strings
-    if (seen.has(key)) return false;
+  const add = (full, thumb) => {
+    if (!/^https?:/.test(full || '')) return;
+    const key = String(full).split('?')[0]; // de-dup (main image repeats as position 0)
+    if (seen.has(key)) return;
     seen.add(key);
-    return true;
-  });
+    items.push({ full, thumb: /^https?:/.test(thumb || '') ? thumb : full });
+  };
+  for (const im of images) add(im.url_big || im.url || im.url_original, im.url || im.url_thumb || im.url_big);
+  // fallback: a property with no gallery images still shows its main image
+  if (items.length === 0 && p.main_image) {
+    const m = p.main_image;
+    add(m.url_big || m.url || m.url_original, m.url || m.url_thumb || m.url_big);
+  }
+  return items;
 }
 
 // ---- property-type map (FIX 1): id_property_type (number) -> name ----
